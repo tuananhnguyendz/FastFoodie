@@ -11,15 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import poly.duan.fastfoodie.Model.Food;
+import poly.duan.fastfoodie.Model.Product;
 import poly.duan.fastfoodie.R;
 
 public class BestfoodAdapter extends RecyclerView.Adapter<BestfoodAdapter.viewHolder> {
-    ArrayList<Food> list_food;
+    List<Product> list_food;
     Context context;
 
-    public BestfoodAdapter(ArrayList<Food> list_food) {
+    public BestfoodAdapter(List<Product> list_food) {
         this.list_food = list_food;
     }
 
@@ -36,16 +37,10 @@ public class BestfoodAdapter extends RecyclerView.Adapter<BestfoodAdapter.viewHo
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
-        holder.txt_title.setText(list_food.get(position).getTitle());
+        holder.txt_productName.setText(list_food.get(position).getProductname());
+        holder.txt_description.setText(list_food.get(position).getDescription());
         holder.txt_price.setText("$"+String.valueOf(list_food.get(position).getPrice()));
 
-
-//        Glide.with(context).load(list_food.get(position).getImagePath()).transform(new CenterCrop(),new RoundedCorners(30)).into(holder.img_food);
-//        holder.itemView.setOnClickListener(v -> {
-//            Intent intent = new Intent(context, DetailActivity.class);
-//            intent.putExtra("object", list_food.get(position));
-//            context.startActivity(intent);
-//        });
 
     }
 
@@ -55,13 +50,15 @@ public class BestfoodAdapter extends RecyclerView.Adapter<BestfoodAdapter.viewHo
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {
-        TextView txt_title,txt_time,txt_price,txt_star;
+        TextView txt_productName,txt_description,txt_price;
         ImageView img_food;
         public viewHolder(@NonNull View itemView) {
             super(itemView);
-            txt_title = itemView.findViewById(R.id.txt_title);
+            txt_productName = itemView.findViewById(R.id.txt_productName);
+            txt_description = itemView.findViewById(R.id.txt_description);
             txt_price = itemView.findViewById(R.id.txt_price);
             img_food = itemView.findViewById(R.id.img_food);
+
         }
     }
 }

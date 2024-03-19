@@ -1,4 +1,4 @@
-package poly.duan.fastfoodie.Fragment;
+package poly.duan.fastfoodie.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
