@@ -46,6 +46,8 @@ public class SignUpActivity extends AppCompatActivity {
         if (!phoneText.matches("\\d+")) {
             Toast.makeText(this, "Số điện thoại không hợp lệ", Toast.LENGTH_SHORT).show();
             return;
+        } else if (pass.length() < 6) {
+            Toast.makeText(this, "Mật khẩu phải lớn hơn 6 kí tự ", Toast.LENGTH_SHORT).show();
         }
 
         // Chuyển đổi số điện thoại từ chuỗi sang kiểu int
