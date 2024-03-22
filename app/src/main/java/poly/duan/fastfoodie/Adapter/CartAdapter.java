@@ -1,16 +1,31 @@
 package poly.duan.fastfoodie.Adapter;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.view.View;
+import android.view.ViewGroup;
 
-import android.os.Bundle;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-import poly.duan.fastfoodie.R;
-
-public class CartAdapter extends AppCompatActivity {
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewHolder> {
+    @NonNull
+    @Override
+    public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return null;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cart_adapter);
+    public void onBindViewHolder(@NonNull viewHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
+
+    public class viewHolder extends RecyclerView.ViewHolder {
+        public viewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
     }
 }

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import poly.duan.fastfoodie.Activity.CartActivity;
 import poly.duan.fastfoodie.Activity.IntroActivity;
 import poly.duan.fastfoodie.Adapter.BestfoodAdapter;
 import poly.duan.fastfoodie.Adapter.CategoryfoodAdapter;
@@ -88,6 +89,9 @@ public class HomeFragment extends Fragment {
 
         binding.logOut.setOnClickListener(v -> {
             getDialogOut();
+        });
+        binding.cartBtn.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), CartActivity.class));
         });
         return binding.getRoot();
     }

@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/btn_back_cart"
@@ -39,8 +38,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_cart"
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
                 android:clipToPadding="false" />
 
             <TextView
@@ -57,19 +56,6 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/grey_bachground">
 
-                <TextView
-                    android:id="@+id/textView15"
-                    style="@style/Widget.AppCompat.TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Subtotal"
-                    android:textColor="@color/blue_gray"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textView14"
@@ -82,63 +68,22 @@
                     android:textColor="@color/blue_gray"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView15" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
-                <TextView
-                    android:id="@+id/textView21"
-                    style="@style/Widget.AppCompat.TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Total tax"
-                    android:textColor="@color/blue_gray"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
-
-                <TextView
-                    android:id="@+id/totalFree"
-                    style="@style/Widget.AppCompat.TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="$-"
-                    android:textColor="@color/blue_gray"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textView15" />
 
                 <TextView
                     android:id="@+id/deliverytxt"
                     style="@style/Widget.AppCompat.TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="$-"
-                    android:textColor="@color/blue_gray"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="@+id/totalFree"
-                    app:layout_constraintTop_toBottomOf="@+id/totalFree" />
-
-                <TextView
-                    android:id="@+id/tax_txt"
-                    style="@style/Widget.AppCompat.TextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
                     android:text="$-"
                     android:textColor="@color/blue_gray"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/deliverytxt" />
+                    app:layout_constraintHorizontal_bias="0.942"
+                    app:layout_constraintStart_toEndOf="@+id/textView14"
+                    tools:layout_editor_absoluteY="0dp" />
 
                 <View
                     android:id="@+id/view"
@@ -150,7 +95,7 @@
                     android:background="#ABABAB"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView21" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
                 <TextView
                     android:id="@+id/textView25"
@@ -160,7 +105,7 @@
                     android:text="Total"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/textView21"
+                    app:layout_constraintStart_toStartOf="@+id/textView14"
                     app:layout_constraintTop_toBottomOf="@+id/view" />
 
                 <TextView
@@ -175,11 +120,10 @@
                     app:layout_constraintTop_toTopOf="@+id/textView25" />
 
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button"
+                android:id="@+id/button_placeOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
