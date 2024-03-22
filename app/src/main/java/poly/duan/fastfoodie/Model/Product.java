@@ -1,16 +1,30 @@
 package poly.duan.fastfoodie.Model;
 
-public class Product {
-    private int id;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class Product implements Serializable {
+    @SerializedName("_id")
+    private String id;
+    @SerializedName("productname")
+
     private String productname;
+    @SerializedName("description")
+
     private String description;
+    @SerializedName("price")
+
     private int price;
+    @SerializedName("imageproduct")
+
     private String imageproduct;
+
 
     public Product() {
     }
 
-    public Product(int id, String productname, String description, int price, String imageproduct) {
+    public Product(String id, String productname, String description, int price, String imageproduct) {
         this.id = id;
         this.productname = productname;
         this.description = description;
@@ -18,11 +32,11 @@ public class Product {
         this.imageproduct = imageproduct;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
