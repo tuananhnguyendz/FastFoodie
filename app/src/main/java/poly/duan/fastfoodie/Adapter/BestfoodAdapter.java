@@ -2,6 +2,7 @@ package poly.duan.fastfoodie.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import poly.duan.fastfoodie.Activity.DetailActivity;
@@ -44,12 +44,25 @@ public class BestfoodAdapter extends RecyclerView.Adapter<BestfoodAdapter.viewHo
         holder.txt_productName.setText(list_food.get(position).getProductname());
         holder.txt_price.setText("$"+String.valueOf(list_food.get(position).getPrice()));
 
+//         Lấy danh sách tài nguyên drawable
+        TypedArray images = context.getResources().obtainTypedArray(R.array.product_images);
+
+        // Gán ảnh từ danh sách tài nguyên drawable cho từng sản phẩm
+        holder.img_food.setImageResource(images.getResourceId(position, -1));
+
+        images.recycle();
+
+
+//        Picasso.get().load(product.getImageproduct()).into(holder.img_food);
+
         holder.itemView.setOnClickListener(v -> {
 //            String productId = li.get(position).getId();
 
             Intent intent = new Intent(context, DetailActivity.class);
             Log.d("product111111","678"+product.toString());
             intent.putExtra("productId",product);
+
+
             context.startActivity(intent);
 
         });

@@ -2,6 +2,7 @@ package poly.duan.fastfoodie.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import poly.duan.fastfoodie.Activity.ListFoodActivity;
 import poly.duan.fastfoodie.Model.Category;
 import poly.duan.fastfoodie.R;
 
@@ -29,14 +31,18 @@ public class CategoryfoodAdapter extends RecyclerView.Adapter<CategoryfoodAdapte
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_item, parent, false);
-
         return new viewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
-        holder.txt_cat.setText(list_category.get(position).getName());
+        holder.txt_cat.setText(list_category.get(position).getCategory());
+        TypedArray images = context.getResources().obtainTypedArray(R.array.product_images_cat);
 
+        // Gán ảnh từ danh sách tài nguyên drawable cho từng sản phẩm
+        holder.img_cat.setImageResource(images.getResourceId(position, -1));
+
+        images.recycle();
         switch (position) {
             case 0: {
                 holder.img_cat.setBackgroundResource(R.drawable.cat_0_background);
@@ -70,21 +76,17 @@ public class CategoryfoodAdapter extends RecyclerView.Adapter<CategoryfoodAdapte
                 holder.img_cat.setBackgroundResource(R.drawable.cat_7_background);
                 break;
             }
+
         }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ListFoodActivity.class);
+            intent.putExtra("CategoryID",list_category.get(position).getId());
+            intent.putExtra("CategoryName",list_category.get(position).getCategory());
+//            intent.putExtra("Category",list_category.get(position));
 
-//        String imageName = list_category.get(position).getImagePath();
-//        int drawableResource = context.getResources().getIdentifier(imageName, "drawable", holder.itemView.getContext().getPackageName());
-//        Glide.with(context).load(drawableResource).into(holder.img_cat);
+            context.startActivity(intent);
+        });
 
-        //xem chi tiết danh mục
-//        holder.itemView.setOnClickListener(v -> {
-////            Intent intent = new Intent(context, ListFoodActivity.class);
-////            intent.putExtra("CategoryID",list_category.get(position).getId());
-////            intent.putExtra("CategoryName",list_category.get(position).getName());
-////            intent.putExtra("Category",list_category.get(position));
-//
-//            context.startActivity(new Intent(context, ListFoodActivity.class));
-//        });
     }
 
     @Override

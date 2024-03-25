@@ -1,30 +1,48 @@
 package poly.duan.fastfoodie.Model;
 
-public class Category {
-private int Img;
-private String Name;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class Category implements Serializable {
+    @SerializedName("_id")
+
+    private String id;
+    @SerializedName("category")
+    private String category;
+    @SerializedName("imageCat")
+    private String imageCat;
 
     public Category() {
     }
 
-    public Category(int img, String name) {
-        Img = img;
-        Name = name;
+    public Category(String id, String category, String imageCat) {
+        this.id = id;
+        this.category = category;
+        this.imageCat = imageCat;
     }
 
-    public int getImg() {
-        return Img;
+    public String getId() {
+        return id;
     }
 
-    public void setImg(int img) {
-        Img = img;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return Name;
+    public String getCategory() {
+        return category;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getImageCat() {
+        return imageCat;
+    }
+
+    public void setImageCat(String imageCat) {
+        this.imageCat = imageCat;
     }
 }

@@ -1,29 +1,38 @@
 package poly.duan.fastfoodie.Model;
 
-public class User {
-    private int id;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class User implements Serializable {
+    @SerializedName("userid")
+    private String userId;
+    @SerializedName("username")
     private String username;
+    @SerializedName("email")
     private String email;
+    @SerializedName("phone")
     private int phone;
+    @SerializedName("password")
     private String password;
 
     public User() {
     }
 
-    public User(int id, String name, String email, int phone, String password) {
-        this.id = id;
-        this.username = name;
+    public User(String userId, String username, String email, int phone, String password) {
+        this.userId = userId;
+        this.username = username;
         this.email = email;
         this.phone = phone;
         this.password = password;
     }
 
-    public int getId() {
-        return id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {

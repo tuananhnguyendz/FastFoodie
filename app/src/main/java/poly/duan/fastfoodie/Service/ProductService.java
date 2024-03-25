@@ -5,11 +5,15 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
+import poly.duan.fastfoodie.Model.Cart;
+import poly.duan.fastfoodie.Model.Category;
 import poly.duan.fastfoodie.Model.Product;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 public interface ProductService {
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -22,5 +26,11 @@ public interface ProductService {
 
     @GET("getProduct")
     Call<List<Product>> getSanPham();
+
+    @GET("getCat")
+    Call<List<Category>> getCategory();
+
+    @POST("getProByCat")
+    Call<List<Product>> getListCat(@Body Category product);
 
 }

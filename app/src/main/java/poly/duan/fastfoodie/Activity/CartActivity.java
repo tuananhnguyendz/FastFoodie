@@ -15,6 +15,7 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         binding.btnBackCart.setOnClickListener(v -> {
             finish();
         });
