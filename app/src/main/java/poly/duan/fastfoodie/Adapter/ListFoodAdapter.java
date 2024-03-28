@@ -43,13 +43,13 @@ public class ListFoodAdapter extends RecyclerView.Adapter<ListFoodAdapter.viewHo
 
         // Gán ảnh từ danh sách tài nguyên drawable cho từng sản phẩm
         holder.img_picList.setImageResource(images.getResourceId(position, -1));
+        images.recycle();
 
         holder.txt_titleFood.setText(list_pro.get(position).getProductname());
         holder.priceFood.setText(String.valueOf(list_pro.get(position).getPrice()));
 
         holder.itemView.setOnClickListener(v ->{
             Intent intent = new Intent(context, DetailActivity.class);
-//            Log.d("product111111","678"+product.toString());
             intent.putExtra("productId",product);
             context.startActivity(intent);
         });

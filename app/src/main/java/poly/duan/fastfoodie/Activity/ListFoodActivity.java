@@ -26,6 +26,8 @@ import retrofit2.Response;
 public class ListFoodActivity extends AppCompatActivity {
     ActivityListFoodBinding binding;
     private String id, category;
+        private String searchText;
+    private boolean isSearch;
 
     ListFoodAdapter listFoodAdapter;
 
@@ -34,6 +36,8 @@ public class ListFoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityListFoodBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
         Product product = (Product) getIntent().getSerializableExtra("productId");
         if (product != null) {
             // Nếu sản phẩm đã được chọn, chuyển đến DetailActivity
@@ -44,7 +48,7 @@ public class ListFoodActivity extends AppCompatActivity {
             // Nếu không, gọi API để lấy danh sách sản phẩm và hiển thị chúng
             Log.d("Lỗi xem chi tiết", "lỗi ở đây này" + product);
         }
-
+//        searchFood();
         getListFoodAPI();
         getIntExtra();
 
@@ -88,12 +92,17 @@ public class ListFoodActivity extends AppCompatActivity {
         });
     }
 
+
+
     private void getIntExtra() {
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("CategoryID") && intent.hasExtra("CategoryName")) {
 
             id = intent.getStringExtra("CategoryID");
             category = intent.getStringExtra("CategoryName");
+
+            searchText = intent.getStringExtra("text");
+            isSearch = intent.getBooleanExtra("isSearch", false);
 
             Log.d("IntentData", "CategoryID: " + id);
 //            Log.d("IntentData", "CategoryName: " + category);

@@ -32,7 +32,7 @@
                     android:layout_marginEnd="16dp">
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/txt_name_client"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Nguyễn Đình Tuấn Anh"
@@ -99,7 +99,7 @@
                             android:textSize="16dp" />
 
                         <ImageView
-                            android:id="@+id/imageView10"
+                            android:id="@+id/btn_search"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"

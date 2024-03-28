@@ -15,7 +15,6 @@
         <ImageView
             android:id="@+id/img_listFood"
             android:layout_width="wrap_content"
-            android:src="@drawable/burger"
             android:scaleType="centerCrop"
             android:layout_height="120dp"
             app:layout_constraintEnd_toEndOf="parent"

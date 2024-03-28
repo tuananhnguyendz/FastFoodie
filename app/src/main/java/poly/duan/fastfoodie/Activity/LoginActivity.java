@@ -48,14 +48,25 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     User user_data = response.body();
-                    Log.d("data : ","data này :"+user_data);
-                    if (user_data !=null){
+                    Log.d("data : ", "data này :" + user_data);
+                    if (user_data != null) {
                         String userId = user_data.getUserId();
-                        Log.d("userId : ","ID ở đây này :"+userId);
+                        Log.d("userId : ", "ID ở đây này :" + userId);
 
-                        SharedPreferences sharedPreferences = getSharedPreferences("myPre",MODE_PRIVATE);
+                        SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("userId",userId);
+                        editor.putString("userId", userId);
+
+                        String username = user_data.getUsername(); //hiển thị tênn client lên Trang chủ
+                        SharedPreferences sharedPreferences_name = getSharedPreferences("myPre", MODE_PRIVATE);
+                        SharedPreferences.Editor edit = sharedPreferences.edit();
+                        editor.putString("userName", username);
+                        editor.apply();
+
+                        String email = user_data.getEmail(); //hiển thị email client lên Trang chủ
+                        SharedPreferences sharedPreferences_mail = getSharedPreferences("myPre", MODE_PRIVATE);
+                        SharedPreferences.Editor edit_mail = sharedPreferences.edit();
+                        editor.putString("mail", email);
                         editor.apply();
                         Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -64,10 +75,10 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Người dùng không tồn tại", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
-
             }
         });
     }

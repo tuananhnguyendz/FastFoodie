@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
-import poly.duan.fastfoodie.Model.Cart;
 import poly.duan.fastfoodie.Model.Category;
 import poly.duan.fastfoodie.Model.Product;
 import retrofit2.Call;
@@ -32,5 +31,8 @@ public interface ProductService {
 
     @POST("getProByCat")
     Call<List<Product>> getListCat(@Body Category product);
+
+    @POST("findProduct")
+    Call<List<Product>> getFindProduct(@Body Product product);
 
 }

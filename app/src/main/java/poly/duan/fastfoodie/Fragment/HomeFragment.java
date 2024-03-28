@@ -1,8 +1,11 @@
 package poly.duan.fastfoodie.Fragment;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,11 +20,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import poly.duan.fastfoodie.Activity.CartActivity;
 import poly.duan.fastfoodie.Activity.IntroActivity;
+import poly.duan.fastfoodie.Activity.ListFoodActivity;
+import poly.duan.fastfoodie.Activity.SearchActivity;
 import poly.duan.fastfoodie.Adapter.BestfoodAdapter;
 import poly.duan.fastfoodie.Adapter.CategoryfoodAdapter;
 import poly.duan.fastfoodie.Adapter.PhotoAdapter;
@@ -61,8 +67,16 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false);
+
+        SharedPreferences sharedPreferences_name = getActivity().getSharedPreferences("myPre", MODE_PRIVATE);
+        String userName = sharedPreferences_name.getString("userName", ""); // Lấy tên người dùng từ SharedPreferences
+
+        // Gán tên người dùng vào TextView hoặc phần tử giao diện tương ứng
+        binding.txtNameClient.setText(userName);
+
         photoList = new ArrayList<>();
         photoList.add(new Photo(R.drawable.piza));
         photoList.add(new Photo(R.drawable.burger));
@@ -86,32 +100,38 @@ public class HomeFragment extends Fragment {
         });
         getBestfood();
         getCategory();
+        getSearchfood();
 
         binding.logOut.setOnClickListener(v -> {
             getDialogOut();
         });
+
         binding.cartBtn.setOnClickListener(v -> {
             startActivity(new Intent(getContext(), CartActivity.class));
         });
         return binding.getRoot();
     }
 
+    private void getSearchfood() {
+        binding.btnSearch.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), SearchActivity.class));
+        });
+    }
 
 
-
-    private void getBestfood(){
+    private void getBestfood() {
         ProductService.api.getSanPham().enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                if (response.isSuccessful()){
-                   List<Product> list_product =  response.body();
-                    for (Product product:list_product ){
-                        Log.d("Product","ProductName" +product.getId() + product.getProductname()+ product.getPrice());
+                if (response.isSuccessful()) {
+                    List<Product> list_product = response.body();
+                    for (Product product : list_product) {
+                        Log.d("Product", "ProductName" + product.getId() + product.getProductname() + product.getPrice());
                     }
                     Toast.makeText(getContext(), "Call API thành công", Toast.LENGTH_SHORT).show();
                     foodAdapter = new BestfoodAdapter(list_product);
                     binding.recyclerViewBestfood.setAdapter(foodAdapter);
-                    binding.recyclerViewBestfood.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+                    binding.recyclerViewBestfood.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 } else {
                     Log.e("API_CALL_FAILURE1", "Không thể nhận dữ liệu sản phẩm từ API: " + response.message());
                     Toast.makeText(getContext(), "Không thể nhận dữ liệu sản phẩm từ API: " + response.message(), Toast.LENGTH_SHORT).show();
@@ -126,32 +146,32 @@ public class HomeFragment extends Fragment {
         });
     }
 
-  private void getCategory(){
-      ProductService.api.getCategory().enqueue(new Callback<List<Category>>() {
-          @Override
-          public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
-              if (response.isSuccessful()) {
-                  List<Category> list = response.body();
-                  for (Category cat : list) {
-                      Log.d("Category", "CCCC :" + cat.getId() + cat.getCategory() + cat.getImageCat());
-                  }
-                  Toast.makeText(getContext(), "Call API THÀNH CÔNG", Toast.LENGTH_SHORT).show();
-                  categoryfoodAdapter = new CategoryfoodAdapter((ArrayList<Category>) list);
-                  binding.recyclerViewCategory.setAdapter(categoryfoodAdapter);
-                  binding.recyclerViewCategory.setLayoutManager(new GridLayoutManager(getContext(), 4));
+    private void getCategory() {
+        ProductService.api.getCategory().enqueue(new Callback<List<Category>>() {
+            @Override
+            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+                if (response.isSuccessful()) {
+                    List<Category> list = response.body();
+                    for (Category cat : list) {
+                        Log.d("Category", "CCCC :" + cat.getId() + cat.getCategory() + cat.getImageCat());
+                    }
+                    Toast.makeText(getContext(), "Call API THÀNH CÔNG", Toast.LENGTH_SHORT).show();
+                    categoryfoodAdapter = new CategoryfoodAdapter((ArrayList<Category>) list);
+                    binding.recyclerViewCategory.setAdapter(categoryfoodAdapter);
+                    binding.recyclerViewCategory.setLayoutManager(new GridLayoutManager(getContext(), 4));
 
-              }else {
-                  Log.e("API_CALL_FAILURE1", "Không thể nhận dữ liệu sản phẩm từ API: " + response.message());
-                  Toast.makeText(getContext(), "Không thể nhận dữ liệu sản phẩm từ API: " + response.message(), Toast.LENGTH_SHORT).show();
-              }
-          }
+                } else {
+                    Log.e("API_CALL_FAILURE1", "Không thể nhận dữ liệu sản phẩm từ API: " + response.message());
+                    Toast.makeText(getContext(), "Không thể nhận dữ liệu sản phẩm từ API: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
 
-          @Override
-          public void onFailure(Call<List<Category>> call, Throwable t) {
-              Log.e("API_CALL_FAILURE", "Thất bại thật rồi: " + t.getMessage());
-              Toast.makeText(getContext(), "Call Api thất bại", Toast.LENGTH_SHORT).show();
-          }
-      });
+            @Override
+            public void onFailure(Call<List<Category>> call, Throwable t) {
+                Log.e("API_CALL_FAILURE", "Thất bại thật rồi: " + t.getMessage());
+                Toast.makeText(getContext(), "Call Api thất bại", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
