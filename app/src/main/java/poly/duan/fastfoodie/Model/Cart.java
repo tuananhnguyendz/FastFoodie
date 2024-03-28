@@ -21,7 +21,7 @@ public class Cart implements Serializable {
 
     private int quantity;
 
-    public Cart(String userId, String productId, double price, double totalOder, int quantity) {
+    public Cart() {
         this.userId = userId;
         this.productId = productId;
         this.price = price;

@@ -3,6 +3,7 @@ package poly.duan.fastfoodie.Model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class User implements Serializable {
     @SerializedName("userid")
@@ -15,16 +16,20 @@ public class User implements Serializable {
     private int phone;
     @SerializedName("password")
     private String password;
+    @SerializedName("cart")
+    List<Cart> cart;
+
 
     public User() {
     }
 
-    public User(String userId, String username, String email, int phone, String password) {
+    public User(String userId, String username, String email, int phone, String password, List<Cart> cart) {
         this.userId = userId;
         this.username = username;
         this.email = email;
         this.phone = phone;
         this.password = password;
+        this.cart = cart;
     }
 
     public String getUserId() {
@@ -65,5 +70,13 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Cart> getCart() {
+        return cart;
+    }
+
+    public void setCart(List<Cart> cart) {
+        this.cart = cart;
     }
 }
