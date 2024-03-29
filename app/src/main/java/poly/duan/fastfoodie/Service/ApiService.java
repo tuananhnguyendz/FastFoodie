@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import poly.duan.fastfoodie.Model.Cart;
+import poly.duan.fastfoodie.Model.CartResponse;
 import poly.duan.fastfoodie.Model.User;
 import poly.duan.fastfoodie.Model.WithList;
 import retrofit2.Call;
@@ -33,5 +34,5 @@ public interface ApiService {
 
 
     @POST("addToCart")
-    Call<Call> addToCart(@Body Cart cart);
+    Call<CartResponse> addToCart(@Body Cart cart);
 }

@@ -2,39 +2,27 @@ package poly.duan.fastfoodie.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
+public class CartItem {
 
-public class Cart implements Serializable {
-    @SerializedName("userId")
-    private String userId;
     @SerializedName("productId")
-
     private String productId;
-    @SerializedName("price")
-
-    private double price;
 
     @SerializedName("quantity")
     private int quantity;
+
+    @SerializedName("price")
+    private double price;
+
     @SerializedName("total_order")
     private double total_order;
 
-   public Cart(){}
+    public CartItem(){}
 
-    public Cart(String userId, String productId, double price,double total_order, int quantity) {
-        this.userId = userId;
+    public CartItem(String productId, int quantity, double price, double total_order) {
         this.productId = productId;
-        this.price = price;
-        this.total_order =total_order;
         this.quantity = quantity;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
+        this.price = price;
+        this.total_order = total_order;
     }
 
     public String getProductId() {
@@ -43,6 +31,14 @@ public class Cart implements Serializable {
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public double getPrice() {
@@ -61,11 +57,5 @@ public class Cart implements Serializable {
         this.total_order = total_order;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+    // Định nghĩa các phương thức getter/setter nếu cần
 }

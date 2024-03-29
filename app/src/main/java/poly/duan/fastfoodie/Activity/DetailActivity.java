@@ -12,6 +12,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import poly.duan.fastfoodie.Model.Cart;
+import poly.duan.fastfoodie.Model.CartResponse;
 import poly.duan.fastfoodie.Model.Product;
 import poly.duan.fastfoodie.Model.WithList;
 import poly.duan.fastfoodie.R;
@@ -59,7 +60,7 @@ public class DetailActivity extends AppCompatActivity {
         binding.plusBtn.setOnClickListener(v -> {
             quantity = quantity + 1;
             binding.txtNumTotal.setText(quantity + "");
-            binding.txtTotal.setText(quantity * product.getPrice());
+            binding.txtTotal.setText(String.valueOf(quantity * product.getPrice()));
         });
 
         binding.minBtn.setOnClickListener(v -> {
@@ -114,39 +115,33 @@ public class DetailActivity extends AppCompatActivity {
         Product product = (Product) getIntent().getSerializableExtra("productId");
         String productId = product.getId();
         int num = Integer.parseInt(binding.txtNumTotal.getText().toString());
-        double total = Double.parseDouble((binding.txtTotal.getText().toString()));
-        double price = Double.parseDouble((binding.txtPriceDetail.getText().toString()));
-
+        double price = Double.valueOf((binding.txtPriceDetail.getText().toString()));
+        double total_order = Double.valueOf((binding.txtTotal.getText().toString()));
         Log.d("userId","userId :" +userId);
         Log.d("pId","pId :" +productId);
         Log.d("num","num :" +num);
-        Log.d("total","total :" +total);
         Log.d("price","price :" +price);
+        Log.d("total","total :" +total_order);
 
-        Cart cart = new Cart();
-        cart.setUserId(userId);
-        cart.setProductId(productId);
-        cart.setQuantity(num);
-        cart.setPrice(price);
-        cart.setTotalOder(total);
-        Log.d("cart", "addToCart: " + cart.getUserId());
-        Log.d("cart", "addToCart: " + cart.getProductId());
-        Log.d("cart", "addToCart: " + cart.getPrice());
-        Log.d("cart", "addToCart: " + cart.getQuantity());
-        Log.d("cart", "addToCart: " + cart.getTotalOder());
-        ApiService.api.addToCart(cart).enqueue(new Callback<Call>() {
+        Cart cart = new Cart(userId, productId,price,total_order, quantity);
+
+        ApiService.api.addToCart(cart).enqueue(new Callback<CartResponse>() {
             @Override
-            public void onResponse(Call<Call> call, Response<Call> response) {
-                if(response.isSuccessful()){
-                    Toast.makeText(DetailActivity.this, "ok", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(DetailActivity.this, "Lỗi", Toast.LENGTH_SHORT).show();
-                }
+            public void onResponse(Call<CartResponse> call, Response<CartResponse> response) {
+
+                   if(response.isSuccessful()){
+                       CartResponse cartResponse = (CartResponse) response.body();
+
+                       Toast.makeText(DetailActivity.this, "ok", Toast.LENGTH_SHORT).show();
+                   }else {
+                       Toast.makeText(DetailActivity.this, "Lỗi"+response.errorBody(), Toast.LENGTH_SHORT).show();
+                       Log.d("dot", "onResponse: "+response.errorBody());
+                   }
             }
 
             @Override
-            public void onFailure(Call<Call> call, Throwable t) {
-                Toast.makeText(DetailActivity.this, "ngu", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<CartResponse> call, Throwable t) {
+                Log.d("Tag", "onFailure: " + t.getMessage());
             }
         });
     }
