@@ -9,6 +9,7 @@ public class CartItem {
     @SerializedName("productname")
     private String productname;
 
+
     @SerializedName("quantity")
     private int quantity;
 

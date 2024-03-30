@@ -42,7 +42,7 @@ public class CartActivity extends AppCompatActivity {
         Log.d("ID nayf5555", "onResponse: "+userId);
 
         Cart cart = new Cart();
-        cart.getUserId(userId);
+        cart.setUserId(userId);
 
 
 
@@ -51,10 +51,8 @@ public class CartActivity extends AppCompatActivity {
             public void onResponse(Call<List<CartItem>> call, Response<List<CartItem>> response) {
                 if (response.isSuccessful()){
 
-                    List<CartItem> cartItemList = (List<CartItem>) response.body();
-                    for (CartItem cartItem : cartItemList){
-                        Log.d("DataCART", "onResponse: "+cartItem.getProductId()+cartItem.getProductname());
-                    }
+                    List<CartItem> cartItemList = response.body();
+
 
                     CartAdapter adapter = new CartAdapter(cartItemList);
                     adapter.notifyDataSetChanged();

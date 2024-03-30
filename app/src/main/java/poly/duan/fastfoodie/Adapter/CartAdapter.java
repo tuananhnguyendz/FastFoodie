@@ -33,11 +33,28 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
+        CartItem item = list.get(position);
         holder.nameCart.setText(list.get(position).getProductname());
         holder.priceCart.setText(String.valueOf(list.get(position).getPrice()));
         holder.numCart.setText(String.valueOf(list.get(position).getQuantity()));
         holder.totalCart.setText(String.valueOf(list.get(position).getTotal_order()));
 
+        holder.minCart.setOnClickListener(v -> {
+            if(item.getQuantity() > 1){
+                item.setQuantity(item.getQuantity() -1);
+                holder.numCart.setText(String.valueOf(item.getQuantity()));
+
+                double newTotal = item.getPrice() * item.getQuantity();
+                holder.totalCart.setText(String.valueOf(newTotal));
+            }
+        });
+
+        holder.maxCart.setOnClickListener(v -> {
+                item.setQuantity(item.getQuantity() + 1);
+                holder.numCart.setText(String.valueOf(item.getQuantity()));
+            double newTotal = item.getPrice() * item.getQuantity();
+            holder.totalCart.setText(String.valueOf(newTotal));
+        });
 
     }
 
@@ -58,6 +75,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewHolder> {
             totalCart = itemView.findViewById(R.id.txt_toTalCart);
             priceCart = itemView.findViewById(R.id.txt_priceCart);
             nameCart = itemView.findViewById(R.id.txt_title_cart);
+
+
         }
     }
 }
