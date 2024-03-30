@@ -34,37 +34,45 @@ public class FavouriteActivity extends AppCompatActivity {
         binding = ActivityFavouriteBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-//        getWithList();
+        getWithList();
 
 
     }
 
-//    private void getWithList() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
-//        String userId = sharedPreferences.getString("userId", "-1");
-//        Log.d("ID nayf5555", "onResponse: "+userId);
-//
-//        WithList withList = new WithList();
-//        withList.getUserId(userId);
-//
-//        ApiService.api.getFavorite(withList).enqueue(new Callback<List<WithList>>() {
-//            @Override
-//            public void onResponse(Call<List<WithList>> call, Response<List<WithList>> response) {
-//                if (response.isSuccessful()){
-////                    WithList withList1 = (WithList) response.body();
-//                    List<WithList> productList = response.body();
-//                    FavoriteAdapter adapter = new FavoriteAdapter(productList);
-//                    binding.recyeFavorite.setAdapter(adapter);
-//                  binding.recyeFavorite.setLayoutManager(new LinearLayoutManager(FavouriteActivity.this, RecyclerView.VERTICAL,false));
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<WithList>> call, Throwable t) {
-//
-//            }
-//        });
-//
-//        }
+    private void getWithList() {
+        SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "-1");
+        Log.d("ID nayf5555", "onResponse: "+userId);
 
+        WithList withList = new WithList();
+        withList.setUserId(userId);
+
+        ApiService.api.getFavorite(withList).enqueue(new Callback<List<Product>>() {
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (response.isSuccessful()){
+                    List<Product> productList = response.body();
+                    for (Product product : productList) {
+
+                    }
+                    FavoriteAdapter favoriteAdapter = new FavoriteAdapter(productList);
+                    binding.recyeFavorite.setAdapter(favoriteAdapter);
+                    binding.recyeFavorite.setLayoutManager(new LinearLayoutManager(FavouriteActivity.this,RecyclerView.VERTICAL,false));
+                    Toast.makeText(FavouriteActivity.this, "Thêm danh sách thành công", Toast.LENGTH_SHORT).show();
+
+                } else{
+                    Toast.makeText(FavouriteActivity.this, "Thêm danh sách thất bại", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {
+                Toast.makeText(FavouriteActivity.this, "Call API thất bại", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
+
+
+
+}

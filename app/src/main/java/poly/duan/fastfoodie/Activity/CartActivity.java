@@ -52,8 +52,6 @@ public class CartActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
 
                     List<CartItem> cartItemList = response.body();
-
-
                     CartAdapter adapter = new CartAdapter(cartItemList);
                     adapter.notifyDataSetChanged();
                     binding.recyclerViewCart.setAdapter(adapter);
