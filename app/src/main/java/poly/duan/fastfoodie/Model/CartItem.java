@@ -6,6 +6,8 @@ public class CartItem {
 
     @SerializedName("productId")
     private String productId;
+    @SerializedName("productname")
+    private String productname;
 
     @SerializedName("quantity")
     private int quantity;
@@ -18,8 +20,9 @@ public class CartItem {
 
     public CartItem(){}
 
-    public CartItem(String productId, int quantity, double price, double total_order) {
+    public CartItem(String productId, String productname, int quantity, double price, double total_order) {
         this.productId = productId;
+        this.productname = productname;
         this.quantity = quantity;
         this.price = price;
         this.total_order = total_order;
@@ -31,6 +34,14 @@ public class CartItem {
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public String getProductname() {
+        return productname;
+    }
+
+    public void setProductname(String productname) {
+        this.productname = productname;
     }
 
     public int getQuantity() {
@@ -56,6 +67,5 @@ public class CartItem {
     public void setTotal_order(double total_order) {
         this.total_order = total_order;
     }
-
     // Định nghĩa các phương thức getter/setter nếu cần
 }

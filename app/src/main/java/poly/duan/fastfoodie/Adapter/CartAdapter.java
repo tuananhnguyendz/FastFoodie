@@ -1,31 +1,63 @@
 package poly.duan.fastfoodie.Adapter;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
+import poly.duan.fastfoodie.Model.CartItem;
+import poly.duan.fastfoodie.R;
+
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewHolder> {
+    List<CartItem> list;
+    Context context;
+
+    public CartAdapter(List<CartItem> list) {
+        this.list = list;
+    }
+
     @NonNull
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        context = parent.getContext();
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cart,parent,false);
+        return new viewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
+        holder.nameCart.setText(list.get(position).getProductname());
+        holder.priceCart.setText(String.valueOf(list.get(position).getPrice()));
+        holder.numCart.setText(String.valueOf(list.get(position).getQuantity()));
+        holder.totalCart.setText(String.valueOf(list.get(position).getTotal_order()));
+
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return list.size();
     }
 
     public class viewHolder extends RecyclerView.ViewHolder {
+        ImageView img_picCart;
+        TextView minCart,maxCart,numCart,totalCart,priceCart,nameCart;
         public viewHolder(@NonNull View itemView) {
             super(itemView);
+            img_picCart = itemView.findViewById(R.id.img_pic_cart);
+            minCart = itemView.findViewById(R.id.min_btn_cart);
+            maxCart = itemView.findViewById(R.id.plus_btn_cart);
+            numCart = itemView.findViewById(R.id.txt_num_cart);
+            totalCart = itemView.findViewById(R.id.txt_toTalCart);
+            priceCart = itemView.findViewById(R.id.txt_priceCart);
+            nameCart = itemView.findViewById(R.id.txt_title_cart);
         }
     }
 }

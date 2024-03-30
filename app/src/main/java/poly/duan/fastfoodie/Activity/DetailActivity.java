@@ -28,6 +28,7 @@ public class DetailActivity extends AppCompatActivity {
     private int quantity = 1;
 
     ActivityDetailBinding binding;
+    public boolean Image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,17 +46,18 @@ public class DetailActivity extends AppCompatActivity {
         binding.txtTotal.setText(String.valueOf(product.getPrice()));
 
         binding.btnFavourite.setOnClickListener(v -> {
+            if (!Image){
+                binding.btnFavourite.setImageResource(R.drawable.favourite_red02);
+                Image = true;
+            } else {
+                binding.btnFavourite.setImageResource(R.drawable.favourite_white02);
+                Image = false;
+            }
             addToWithList();
         });
         binding.imgBackDetail.setOnClickListener(v -> {
         finish();
         });
-
-        binding.btnAddtocart.setOnClickListener(v -> {
-            //thêm vào giỏ hàng
-        });
-
-
 
         binding.plusBtn.setOnClickListener(v -> {
             quantity = quantity + 1;
@@ -67,7 +69,7 @@ public class DetailActivity extends AppCompatActivity {
             if (quantity > 1) {
                 quantity = quantity - 1;
                 binding.txtNumTotal.setText(quantity + "");
-                binding.txtTotal.setText(quantity * product.getPrice());
+                binding.txtTotal.setText(String.valueOf(quantity * product.getPrice()));
             }
         });
         

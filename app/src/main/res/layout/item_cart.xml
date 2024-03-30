@@ -38,13 +38,26 @@
 
 
         <TextView
-            android:id="@+id/feeEachItem"
+            android:id="@+id/txt_priceCart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="$0"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="20dp"
+            android:text=""
+            android:textSize="18dp"
+            android:textColor="@color/red"
+            app:layout_constraintBottom_toTopOf="@+id/txt_toTalCart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/txt_toTalCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
+            android:text="0"
+            android:textSize="18dp"
             android:textColor="@color/red"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/img_pic_cart"

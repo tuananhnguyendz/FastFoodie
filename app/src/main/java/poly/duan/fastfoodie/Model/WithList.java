@@ -17,8 +17,8 @@ public class WithList implements Serializable {
         this.productId = productId;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserId(String userId) {
+        return this.userId;
     }
 
     public void setUserId(String userId) {

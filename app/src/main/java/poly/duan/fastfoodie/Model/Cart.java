@@ -29,8 +29,8 @@ public class Cart implements Serializable {
         this.quantity = quantity;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserId(String userId) {
+        return this.userId;
     }
 
     public void setUserId(String userId) {

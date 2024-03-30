@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import poly.duan.fastfoodie.Activity.ChangePasswordActivity;
+import poly.duan.fastfoodie.Activity.FavouriteActivity;
 import poly.duan.fastfoodie.Activity.IntroActivity;
 import poly.duan.fastfoodie.R;
 import poly.duan.fastfoodie.databinding.FragmentProfileBinding;
@@ -40,6 +41,9 @@ public class ProfileFragment extends Fragment {
         });
         binding.txtLogOut.setOnClickListener(v -> {
             getDialogOut();
+        });
+        binding.txtFavorite.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(), FavouriteActivity.class));
         });
         return binding.getRoot();
     }

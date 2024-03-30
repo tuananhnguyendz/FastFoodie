@@ -3,8 +3,12 @@ package poly.duan.fastfoodie.Service;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.List;
+
 import poly.duan.fastfoodie.Model.Cart;
+import poly.duan.fastfoodie.Model.CartItem;
 import poly.duan.fastfoodie.Model.CartResponse;
+import poly.duan.fastfoodie.Model.Product;
 import poly.duan.fastfoodie.Model.User;
 import poly.duan.fastfoodie.Model.WithList;
 import retrofit2.Call;
@@ -12,7 +16,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 public interface ApiService {
     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
@@ -35,4 +38,10 @@ public interface ApiService {
 
     @POST("addToCart")
     Call<CartResponse> addToCart(@Body Cart cart);
+
+    @POST("getCart")
+    Call<List<CartItem>> getCart(@Body Cart cart);
+
+    @POST("getWithList")
+    Call<List<WithList>> getFavorite(@Body Product product);
 }
