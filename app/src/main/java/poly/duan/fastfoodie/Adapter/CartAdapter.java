@@ -27,7 +27,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewHolder> {
     @Override
     public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cart,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cart, parent, false);
         return new viewHolder(v);
     }
 
@@ -39,19 +39,35 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewHolder> {
         holder.numCart.setText(String.valueOf(list.get(position).getQuantity()));
         holder.totalCart.setText(String.valueOf(list.get(position).getTotal_order()));
 
+//        holder.minCart.setOnClickListener(v -> {
+//            if (item.getQuantity() > 1) {
+//                item.setQuantity(item.getQuantity() - 1);
+//                holder.numCart.setText(String.valueOf(item.getQuantity()));
+//
+//                double newTotal = item.getPrice() * item.getQuantity();
+//                holder.totalCart.setText(String.valueOf(newTotal));
+//            }
+//        });
+
         holder.minCart.setOnClickListener(v -> {
-            if(item.getQuantity() > 1){
-                item.setQuantity(item.getQuantity() -1);
+            if (item.getQuantity() > 1) {
+                item.setQuantity(item.getQuantity() - 1);
                 holder.numCart.setText(String.valueOf(item.getQuantity()));
 
                 double newTotal = item.getPrice() * item.getQuantity();
                 holder.totalCart.setText(String.valueOf(newTotal));
+            } else if (item.getQuantity() == 1) {
+                // Giảm số lượng về 0 và ẩn sản phẩm
+                item.setQuantity(0);
+                holder.numCart.setText(String.valueOf(0));
+                holder.totalCart.setText(String.valueOf(0));
+                holder.itemView.setVisibility(View.GONE);
             }
         });
 
         holder.maxCart.setOnClickListener(v -> {
-                item.setQuantity(item.getQuantity() + 1);
-                holder.numCart.setText(String.valueOf(item.getQuantity()));
+            item.setQuantity(item.getQuantity() + 1);
+            holder.numCart.setText(String.valueOf(item.getQuantity()));
             double newTotal = item.getPrice() * item.getQuantity();
             holder.totalCart.setText(String.valueOf(newTotal));
         });
@@ -65,7 +81,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewHolder> {
 
     public class viewHolder extends RecyclerView.ViewHolder {
         ImageView img_picCart;
-        TextView minCart,maxCart,numCart,totalCart,priceCart,nameCart;
+        TextView minCart, maxCart, numCart, totalCart, priceCart, nameCart;
+
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             img_picCart = itemView.findViewById(R.id.img_pic_cart);

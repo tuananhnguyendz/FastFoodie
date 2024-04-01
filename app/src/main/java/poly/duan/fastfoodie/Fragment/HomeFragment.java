@@ -118,7 +118,6 @@ public class HomeFragment extends Fragment {
         });
     }
 
-
     private void getBestfood() {
         ProductService.api.getSanPham().enqueue(new Callback<List<Product>>() {
             @Override
@@ -128,7 +127,7 @@ public class HomeFragment extends Fragment {
                     for (Product product : list_product) {
                         Log.d("Product", "ProductName" + product.getId() + product.getProductname() + product.getPrice());
                     }
-                    Toast.makeText(getContext(), "Call API thành công", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Call API thành công", Toast.LENGTH_SHORT).show();
                     foodAdapter = new BestfoodAdapter(list_product);
                     binding.recyclerViewBestfood.setAdapter(foodAdapter);
                     binding.recyclerViewBestfood.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -137,7 +136,6 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getContext(), "Không thể nhận dữ liệu sản phẩm từ API: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
                 Log.e("API_CALL_FAILURE", "Thất bại thật rồi: " + t.getMessage());
@@ -155,7 +153,7 @@ public class HomeFragment extends Fragment {
                     for (Category cat : list) {
                         Log.d("Category", "CCCC :" + cat.getId() + cat.getCategory() + cat.getImageCat());
                     }
-                    Toast.makeText(getContext(), "Call API THÀNH CÔNG", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "Call API THÀNH CÔNG", Toast.LENGTH_SHORT).show();
                     categoryfoodAdapter = new CategoryfoodAdapter((ArrayList<Category>) list);
                     binding.recyclerViewCategory.setAdapter(categoryfoodAdapter);
                     binding.recyclerViewCategory.setLayoutManager(new GridLayoutManager(getContext(), 4));
@@ -165,7 +163,6 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getContext(), "Không thể nhận dữ liệu sản phẩm từ API: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<List<Category>> call, Throwable t) {
                 Log.e("API_CALL_FAILURE", "Thất bại thật rồi: " + t.getMessage());
@@ -196,7 +193,6 @@ public class HomeFragment extends Fragment {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
     private void LogOut() {
         startActivity(new Intent(getContext(), IntroActivity.class));
     }

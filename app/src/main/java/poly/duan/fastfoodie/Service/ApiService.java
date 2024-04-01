@@ -43,5 +43,5 @@ public interface ApiService {
     Call<List<CartItem>> getCart(@Body Cart cart);
 
     @POST("getWithList")
-    Call<List<WithList>> getFavorite(@Body Product product);
+    Call<List<Product>> getFavorite(@Body WithList withList);
 }

@@ -30,12 +30,13 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        binding.backCart.setOnClickListener(v -> {
+            finish();
+        });
         getCart();
 
-
-
     }
-
     private void getCart() {
         SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", "-1");
@@ -43,61 +44,27 @@ public class CartActivity extends AppCompatActivity {
 
         Cart cart = new Cart();
         cart.setUserId(userId);
-
-
-
         ApiService.api.getCart(cart).enqueue(new Callback<List<CartItem>>() {
             @Override
             public void onResponse(Call<List<CartItem>> call, Response<List<CartItem>> response) {
                 if (response.isSuccessful()){
 
                     List<CartItem> cartItemList = response.body();
-
-
                     CartAdapter adapter = new CartAdapter(cartItemList);
-                    adapter.notifyDataSetChanged();
                     binding.recyclerViewCart.setAdapter(adapter);
-                    binding.recyclerViewCart.setLayoutManager(new LinearLayoutManager(CartActivity.this, RecyclerView.HORIZONTAL,false));
+                    binding.recyclerViewCart.setLayoutManager(new LinearLayoutManager(CartActivity.this, RecyclerView.VERTICAL,false));
                     Toast.makeText(CartActivity.this, "Call OK", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(CartActivity.this, "Lỗi"+response.errorBody(), Toast.LENGTH_SHORT).show();
                     Log.d("dot", "onResponse: "+response.message());
                 }
             }
-
             @Override
             public void onFailure(Call<List<CartItem>> call, Throwable t) {
                 Toast.makeText(CartActivity.this, "Lỗi"+t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.d("dot", "onResponse: "+t.getMessage());
             }
         });
-//        ApiService.api.getCart(cart).enqueue(new Callback<CartItem>() {
-//            @Override
-//            public void onResponse(Call<CartItem> call, Response<CartItem> response) {
-//                if (response.isSuccessful()){
-//
-//                        List<CartItem> cartItemList = (List<CartItem>) response.body();
-//                        for (CartItem cartItem : cartItemList){
-//                            Log.d("DataCART", "onResponse: "+cartItem.getProductId()+cartItem.getProductname());
-//                        }
-//
-//                        CartAdapter adapter = new CartAdapter(cartItemList);
-//                        binding.recyclerViewCart.setAdapter(adapter);
-//                        binding.recyclerViewCart.setLayoutManager(new LinearLayoutManager(CartActivity.this, RecyclerView.HORIZONTAL,false));
-//                        Toast.makeText(CartActivity.this, "Call OK", Toast.LENGTH_SHORT).show();
-//
-//                } else {
-//                    Toast.makeText(CartActivity.this, "Lỗi"+response.errorBody(), Toast.LENGTH_SHORT).show();
-//                    Log.d("dot", "onResponse: "+response.message());
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<CartItem> call, Throwable t) {
-//                Toast.makeText(CartActivity.this, "Lỗi"+t.getMessage(), Toast.LENGTH_SHORT).show();
-//                Log.d("dot", "onResponse: "+t.getMessage());
-//            }
-//        });
+
     }
 }

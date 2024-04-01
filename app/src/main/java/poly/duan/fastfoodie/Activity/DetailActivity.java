@@ -2,14 +2,11 @@ package poly.duan.fastfoodie.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-
-import java.util.List;
 
 import poly.duan.fastfoodie.Model.Cart;
 import poly.duan.fastfoodie.Model.CartResponse;
@@ -17,7 +14,6 @@ import poly.duan.fastfoodie.Model.Product;
 import poly.duan.fastfoodie.Model.WithList;
 import poly.duan.fastfoodie.R;
 import poly.duan.fastfoodie.Service.ApiService;
-import poly.duan.fastfoodie.Service.ProductService;
 import poly.duan.fastfoodie.databinding.ActivityDetailBinding;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -72,15 +68,37 @@ public class DetailActivity extends AppCompatActivity {
                 binding.txtTotal.setText(String.valueOf(quantity * product.getPrice()));
             }
         });
+        binding.btnBuyNow.setOnClickListener(v -> {
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//
+//            // Khởi tạo FragmentTransaction
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//            // Tạo một đối tượng Fragment mới
+//            Fragment fragment = new BuyFragment();
+//
+//            // Thay thế Fragment hiện tại trong container layout bằng Fragment mới
+//            fragmentTransaction.replace(R.id.fragment_container, fragment);
+//
+//            // Kết thúc FragmentTransaction
+//            fragmentTransaction.commit();
+            startActivity(new Intent(this, BuyActivity.class));
+        });
         
         binding.btnAddtocart.setOnClickListener(v -> {
             addToCart();
         });
     }
+//    private void buyNow(){
+//        LayoutInflater inflater = getLayoutInflater();
+//        View view = inflater.inflate(R.layout.bottomsheet_buynow, null);
+//        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+//        bottomSheetDialog.setContentView(view);
+//        bottomSheetDialog.show();
+//    }
 
 
     // Phương thức để tìm ID tài nguyên ảnh dựa trên chuỗi ID
-
     private void addToWithList(){
         SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", "-1");
@@ -96,7 +114,6 @@ public class DetailActivity extends AppCompatActivity {
             public void onResponse(Call<WithList> call, Response<WithList> response) {
                 if(response.isSuccessful()){
                     Toast.makeText(DetailActivity.this, "Đã thêm sản phẩm vào danh sách yêu thích của bạn", Toast.LENGTH_SHORT).show();
-
                 }else {
                     Toast.makeText(DetailActivity.this, "Thêm thất bại", Toast.LENGTH_SHORT).show();
                 }
@@ -134,7 +151,7 @@ public class DetailActivity extends AppCompatActivity {
                    if(response.isSuccessful()){
                        CartResponse cartResponse = (CartResponse) response.body();
 
-                       Toast.makeText(DetailActivity.this, "ok", Toast.LENGTH_SHORT).show();
+                       Toast.makeText(DetailActivity.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
                    }else {
                        Toast.makeText(DetailActivity.this, "Lỗi"+response.errorBody(), Toast.LENGTH_SHORT).show();
                        Log.d("dot", "onResponse: "+response.errorBody());

@@ -15,6 +15,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.LocationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.BuyActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.FavouriteActivity"
             android:exported="false" />
         <activity
@@ -39,7 +45,7 @@
             android:name=".Activity.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".Activity.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.IntroActivity"
@@ -48,7 +54,7 @@
             android:name=".Activity.SplashActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.LoginActivity"
+            android:name=".Activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

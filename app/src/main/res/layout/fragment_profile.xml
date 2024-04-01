@@ -8,15 +8,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@drawable/custom_background"
         android:layout_height="match_parent"
+        android:background="@color/grey"
         tools:context=".MainActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginTop="100dp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -59,7 +59,7 @@
                     android:layout_width="50dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:src="@mipmap/wall_clock" />
+                    android:src="@mipmap/clock" />
 
                 <TextView
                     android:id="@+id/txt_order"
@@ -93,7 +93,7 @@
                     android:layout_width="50dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:src="@mipmap/account" />
+                    android:src="@mipmap/resetpass" />
 
                 <TextView
                     android:id="@+id/txt_doimk_profile"
@@ -127,7 +127,7 @@
                     android:layout_width="50dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:src="@mipmap/favourite" />
+                    android:src="@mipmap/favourite_red02" />
 
                 <TextView
                     android:id="@+id/txt_favorite"
@@ -140,6 +140,7 @@
                     android:textSize="18dp"
                     android:textStyle="bold" />
             </LinearLayout>
+
             <View
                 android:id="@+id/view8"
                 android:layout_width="350dp"
@@ -148,6 +149,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
                 android:background="@color/blue_gray" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -156,10 +158,10 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="50dp"
+                    android:layout_width="60dp"
                     android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:src="@drawable/logout" />
+                    android:src="@mipmap/check_out" />
 
                 <TextView
                     android:id="@+id/txt_logOut"
@@ -182,7 +184,6 @@
                 android:layout_marginTop="20dp"
                 android:background="@color/blue_gray" />
         </LinearLayout>
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

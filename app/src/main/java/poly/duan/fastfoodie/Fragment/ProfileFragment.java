@@ -51,16 +51,16 @@ public class ProfileFragment extends Fragment {
     private void getDialogOut() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setIcon(R.drawable.warning);
-        builder.setTitle("Notification");
-        builder.setMessage("Do you want to log out?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setTitle("Thông báo");
+        builder.setMessage("Bạn có muốn đăng xuất không ?");
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 LogOut();
-                Toast.makeText(getContext(), "Signed out successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

@@ -8,6 +8,7 @@
     <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/grey"
         android:layout_height="match_parent">
 
         <ScrollView
@@ -37,7 +38,7 @@
                         android:layout_height="wrap_content"
                         android:text="Nguyễn Đình Tuấn Anh"
                         android:textColor="@color/black"
-                        android:textSize="16dp"
+                        android:textSize="20dp"
                         android:textStyle="bold"
                         app:layout_constraintTop_toBottomOf="@+id/textView5"
                         tools:ignore="MissingConstraints" />
@@ -47,6 +48,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Welcome"
+                        android:textSize="16dp"
                         android:textColor="@color/black"
                         tools:ignore="MissingConstraints" />
 
@@ -66,20 +68,13 @@
                     android:layout_marginTop="16dp"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/settingBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_marginEnd="6dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/grey_bachground"
-                        android:padding="12dp"
-                        app:srcCompat="@drawable/settings" />
+
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:layout_marginStart="10dp"
                         android:background="@drawable/grey_bachground"
                         android:orientation="horizontal">
 
@@ -93,7 +88,6 @@
                             android:hint="Search food...."
                             android:inputType="text"
                             android:padding="8dp"
-                            android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
                             android:textSize="16dp" />
@@ -110,9 +104,9 @@
 
                     <ImageView
                         android:id="@+id/cartBtn"
-                        android:layout_width="wrap_content"
+                        android:layout_width="10dp"
                         android:layout_height="50dp"
-                        android:layout_marginStart="6dp"
+                        android:layout_marginStart="10dp"
                         android:layout_weight="1"
                         android:background="@drawable/grey_bachground"
                         android:padding="12dp"
