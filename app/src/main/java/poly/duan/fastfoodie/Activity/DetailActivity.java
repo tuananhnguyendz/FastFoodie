@@ -33,11 +33,11 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Product product = (Product) getIntent().getSerializableExtra("productId");
-
-//        Log.d("DetailActivity", "ID sản phẩm: " + product.getId()); // Thêm log này để kiểm tra tên ID sản phẩm
         binding.txtProductnameDetail.setText(product.getProductname());
         binding.txtPriceDetail.setText(String.valueOf(product.getPrice()));
         binding.txtDescriptionDetail.setText(product.getDescription());
+
+
 
         binding.txtTotal.setText(String.valueOf(product.getPrice()));
 
@@ -69,19 +69,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
         binding.btnBuyNow.setOnClickListener(v -> {
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//
-//            // Khởi tạo FragmentTransaction
-//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//            // Tạo một đối tượng Fragment mới
-//            Fragment fragment = new BuyFragment();
-//
-//            // Thay thế Fragment hiện tại trong container layout bằng Fragment mới
-//            fragmentTransaction.replace(R.id.fragment_container, fragment);
-//
-//            // Kết thúc FragmentTransaction
-//            fragmentTransaction.commit();
+
             startActivity(new Intent(this, BuyActivity.class));
         });
         
@@ -89,13 +77,7 @@ public class DetailActivity extends AppCompatActivity {
             addToCart();
         });
     }
-//    private void buyNow(){
-//        LayoutInflater inflater = getLayoutInflater();
-//        View view = inflater.inflate(R.layout.bottomsheet_buynow, null);
-//        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-//        bottomSheetDialog.setContentView(view);
-//        bottomSheetDialog.show();
-//    }
+
 
 
     // Phương thức để tìm ID tài nguyên ảnh dựa trên chuỗi ID

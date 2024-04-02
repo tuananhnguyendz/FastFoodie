@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
+import poly.duan.fastfoodie.Model.Address;
 import poly.duan.fastfoodie.Model.Cart;
 import poly.duan.fastfoodie.Model.CartItem;
 import poly.duan.fastfoodie.Model.CartResponse;
@@ -44,4 +45,7 @@ public interface ApiService {
 
     @POST("getWithList")
     Call<List<Product>> getFavorite(@Body WithList withList);
+
+    @POST("getAddress")
+    Call<Address> getAddress(@Body Address address);
 }

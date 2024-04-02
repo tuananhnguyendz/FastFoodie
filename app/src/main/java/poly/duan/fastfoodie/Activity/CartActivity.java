@@ -24,45 +24,45 @@ import retrofit2.Response;
 
 public class CartActivity extends AppCompatActivity {
     ActivityCartBinding binding;
-
+    private double Total;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.backCart.setOnClickListener(v -> {
-            finish();
-        });
+
         getCart();
 
     }
+
     private void getCart() {
         SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", "-1");
-        Log.d("ID nayf5555", "onResponse: "+userId);
+        Log.d("ID nayf5555", "onResponse: " + userId);
 
         Cart cart = new Cart();
         cart.setUserId(userId);
         ApiService.api.getCart(cart).enqueue(new Callback<List<CartItem>>() {
             @Override
             public void onResponse(Call<List<CartItem>> call, Response<List<CartItem>> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
 
                     List<CartItem> cartItemList = response.body();
                     CartAdapter adapter = new CartAdapter(cartItemList);
                     binding.recyclerViewCart.setAdapter(adapter);
-                    binding.recyclerViewCart.setLayoutManager(new LinearLayoutManager(CartActivity.this, RecyclerView.VERTICAL,false));
+                    binding.recyclerViewCart.setLayoutManager(new LinearLayoutManager(CartActivity.this, RecyclerView.VERTICAL, false));
                     Toast.makeText(CartActivity.this, "Call OK", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(CartActivity.this, "Lỗi"+response.errorBody(), Toast.LENGTH_SHORT).show();
-                    Log.d("dot", "onResponse: "+response.message());
+                    Toast.makeText(CartActivity.this, "Lỗi" + response.errorBody(), Toast.LENGTH_SHORT).show();
+                    Log.d("dot", "onResponse: " + response.message());
                 }
             }
+
             @Override
             public void onFailure(Call<List<CartItem>> call, Throwable t) {
-                Toast.makeText(CartActivity.this, "Lỗi"+t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.d("dot", "onResponse: "+t.getMessage());
+                Toast.makeText(CartActivity.this, "Lỗi" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.d("dot", "onResponse: " + t.getMessage());
             }
         });
 
