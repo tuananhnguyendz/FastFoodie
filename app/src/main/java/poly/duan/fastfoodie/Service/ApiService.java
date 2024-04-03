@@ -48,4 +48,7 @@ public interface ApiService {
 
     @POST("getAddress")
     Call<Address> getAddress(@Body Address address);
+
+    @POST("addAddress")
+    Call<Address> addAddress(@Body Address address);
 }

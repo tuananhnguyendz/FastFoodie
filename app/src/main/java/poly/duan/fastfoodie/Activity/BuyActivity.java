@@ -155,6 +155,12 @@ public class BuyActivity extends AppCompatActivity {
 
         edt_diachi = view.findViewById(R.id.edt_diachi);
         btn_themDiachi = view.findViewById(R.id.btn_address);
+
+        btn_themDiachi.setOnClickListener(v -> {
+            String address = edt_diachi.getText().toString();
+
+        });
+
     }
 
 
