@@ -36,9 +36,6 @@ public class DetailActivity extends AppCompatActivity {
         binding.txtProductnameDetail.setText(product.getProductname());
         binding.txtPriceDetail.setText(String.valueOf(product.getPrice()));
         binding.txtDescriptionDetail.setText(product.getDescription());
-
-
-
         binding.txtTotal.setText(String.valueOf(product.getPrice()));
 
         binding.btnFavourite.setOnClickListener(v -> {
@@ -69,8 +66,12 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
         binding.btnBuyNow.setOnClickListener(v -> {
+            Intent intent = new Intent(DetailActivity.this, BuyActivity.class);
+            intent.putExtra("productId", product); // product là đối tượng Product bạn muốn truyền đi
+            intent.putExtra("quantity", quantity);
+            intent.putExtra("price", product.getPrice());// quantity là số lượng sản phẩm
+            startActivity(intent);
 
-            startActivity(new Intent(this, BuyActivity.class));
         });
         
         binding.btnAddtocart.setOnClickListener(v -> {

@@ -59,15 +59,15 @@ public class LoginActivity extends AppCompatActivity {
 
                         String username = user_data.getUsername(); //hiển thị tênn client lên Trang chủ
                         SharedPreferences sharedPreferences_name = getSharedPreferences("myPre", MODE_PRIVATE);
-                        SharedPreferences.Editor edit = sharedPreferences.edit();
-                        editor.putString("userName", username);
-                        editor.apply();
+                        SharedPreferences.Editor edit = sharedPreferences_name.edit();
+                        edit.putString("userName", username);
+                        edit.apply();
 
                         String email = user_data.getEmail(); //hiển thị email client lên Trang chủ
                         SharedPreferences sharedPreferences_mail = getSharedPreferences("myPre", MODE_PRIVATE);
-                        SharedPreferences.Editor edit_mail = sharedPreferences.edit();
-                        editor.putString("mail", email);
-                        editor.apply();
+                        SharedPreferences.Editor edit_mail = sharedPreferences_mail.edit();
+                        edit_mail.putString("mail", email);
+                        edit_mail.apply();
                         Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     }

@@ -3,6 +3,7 @@ package poly.duan.fastfoodie.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -22,6 +23,8 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
         binding.txtLogin.setOnClickListener(v -> {
             startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
         });
@@ -65,6 +68,21 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()){
+                    User user1 = response.body();
+
+                    String username = user1.getUsername();
+                    SharedPreferences sharedPreferences = getSharedPreferences("myPre",MODE_PRIVATE);
+                    SharedPreferences. Editor editor = sharedPreferences.edit();
+                    editor.putString("userName",username);
+                    editor.apply();
+
+                    int phone = Integer.parseInt(phoneText); // Chuyển đổi chuỗi sang kiểu int
+
+// Lưu số điện thoại vào SharedPreferences dưới dạng kiểu int
+                    SharedPreferences sharedPreferences_phone = getSharedPreferences("myPre",MODE_PRIVATE);
+                    SharedPreferences.Editor editor_phone = sharedPreferences.edit();
+                    editor.putInt("phone", phone);
+                    editor.apply();
                     Toast.makeText(SignUpActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
 

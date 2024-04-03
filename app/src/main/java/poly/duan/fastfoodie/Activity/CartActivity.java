@@ -24,7 +24,7 @@ import retrofit2.Response;
 
 public class CartActivity extends AppCompatActivity {
     ActivityCartBinding binding;
-    private double Total;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +50,7 @@ public class CartActivity extends AppCompatActivity {
 
                     List<CartItem> cartItemList = response.body();
                     CartAdapter adapter = new CartAdapter(cartItemList);
+                    calculateTotal(cartItemList);
                     binding.recyclerViewCart.setAdapter(adapter);
                     binding.recyclerViewCart.setLayoutManager(new LinearLayoutManager(CartActivity.this, RecyclerView.VERTICAL, false));
                     Toast.makeText(CartActivity.this, "Call OK", Toast.LENGTH_SHORT).show();
@@ -66,5 +67,19 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void calculateTotal(List<CartItem> cartItemList) {
+        int totalQuantity = 0;
+        int totalPrice = 0;
+
+        for (CartItem item : cartItemList) {
+            totalQuantity += item.getQuantity();
+            totalPrice += item.getPrice() * item.getQuantity();
+        }
+        binding.toTalCart.setText(String.valueOf(totalPrice));
+        // Hiển thị kết quả hoặc sử dụng cho mục đích khác
+        Log.d("Total Quantity", "Total Quantity: " + totalQuantity);
+        Log.d("Total Price", "Total Price: " + totalPrice);
     }
 }

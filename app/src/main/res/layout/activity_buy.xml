@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
+            android:textSize="18dp"
             android:text="Pizza BBQ" />
 
         <TextView
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-
+            android:textSize="18dp"
             android:text="x" />
 
         <TextView
@@ -47,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-
+            android:textSize="18dp"
             android:text="Số lượng:" />
 
         <TextView
@@ -57,13 +58,18 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="20"
+            android:textSize="18dp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txt_priceOrder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="120dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="50dp"
+            android:textSize="18dp"
+            android:layout_marginBottom="5dp"
+            android:textStyle="bold"
             android:layout_marginTop="8dp"
             android:text="129,000"
             android:textColor="@color/red" />
@@ -78,14 +84,17 @@
         <TextView
             android:id="@+id/txt_nameUser"
             android:layout_width="wrap_content"
-            android:layout_height="19dp"
+            android:layout_height="25dp"
             android:layout_marginStart="32dp"
+            android:textSize="18dp"
             android:text="Nguyễn Đình Tuấn Anh" />
 
         <TextView
             android:id="@+id/textView24"
             android:layout_width="20dp"
             android:layout_height="19dp"
+            android:textSize="18dp"
+
             android:layout_marginStart="12dp"
             android:text="-" />
 
@@ -93,6 +102,7 @@
             android:id="@+id/txt_phoneUser"
             android:layout_width="wrap_content"
             android:layout_height="19dp"
+            android:textSize="18dp"
             android:text="0326527941" />
     </LinearLayout>
 
@@ -154,7 +164,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/edittext_background02"
         android:layout_marginEnd="16dp"
         android:orientation="horizontal">
 
@@ -169,17 +178,23 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="7dp"
-                android:layout_weight="1"
                 android:src="@drawable/location" />
 
             <Spinner
                 android:id="@+id/spinner_location"
-                android:layout_width="match_parent"
+                android:layout_width="20dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="4dp"
                 android:layout_weight="1"
                 android:background="@null" />
 
+            <ImageView
+                android:id="@+id/btn_addtoAddress"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="7dp"
+                android:src="@drawable/add" />
         </LinearLayout>
 
     </LinearLayout>

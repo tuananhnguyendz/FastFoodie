@@ -2,13 +2,15 @@ package poly.duan.fastfoodie.Model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Address {
     @SerializedName("userId")
 
     private String userId;
     @SerializedName("address")
 
-    private String address;
+    private List<String> address;
 
     public Address() {
         this.userId = userId;
@@ -23,11 +25,11 @@ public class Address {
         this.userId = userId;
     }
 
-    public String getAddress() {
+    public List<String> getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(List<String> address) {
         this.address = address;
     }
 }

@@ -36,8 +36,6 @@ public class ListFoodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityListFoodBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-
         Product product = (Product) getIntent().getSerializableExtra("productId");
         if (product != null) {
             // Nếu sản phẩm đã được chọn, chuyển đến DetailActivity
