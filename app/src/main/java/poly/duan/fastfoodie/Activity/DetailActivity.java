@@ -68,11 +68,15 @@ public class DetailActivity extends AppCompatActivity {
         binding.btnBuyNow.setOnClickListener(v -> {
             Intent intent = new Intent(DetailActivity.this, BuyActivity.class);
             intent.putExtra("productId", product); // product là đối tượng Product bạn muốn truyền đi
+            intent.putExtra("productname",product.getProductname());
+            intent.putExtra("total",binding.txtTotal.getText());
             intent.putExtra("quantity", quantity);
+            Log.d("Tag","total" + binding.txtTotal.getText());
             intent.putExtra("price", product.getPrice());// quantity là số lượng sản phẩm
             startActivity(intent);
 
         });
+
         
         binding.btnAddtocart.setOnClickListener(v -> {
             addToCart();

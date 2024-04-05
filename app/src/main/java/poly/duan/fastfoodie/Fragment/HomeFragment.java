@@ -71,6 +71,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
+
         SharedPreferences sharedPreferences_name = getActivity().getSharedPreferences("myPre", MODE_PRIVATE);
         String userName = sharedPreferences_name.getString("userName", ""); // Lấy tên người dùng từ SharedPreferences
 

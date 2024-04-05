@@ -50,5 +50,7 @@ public interface ApiService {
     Call<Address> getAddress(@Body Address address);
 
     @POST("addAddress")
-    Call<Address> addAddress(@Body Address address);
+    Call<Void> addAddress(@Body Address address);
+    @POST("updateCart")
+    Call<CartResponse> updateCart(@Body Cart cart);
 }

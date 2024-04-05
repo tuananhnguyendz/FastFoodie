@@ -24,7 +24,8 @@ import retrofit2.Response;
 
 public class CartActivity extends AppCompatActivity {
     ActivityCartBinding binding;
-
+    private double Total = 0;
+    private int itemCount = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +51,13 @@ public class CartActivity extends AppCompatActivity {
 
                     List<CartItem> cartItemList = response.body();
                     CartAdapter adapter = new CartAdapter(cartItemList);
-                    calculateTotal(cartItemList);
+                    itemCount = cartItemList.size();
+                    Log.d("count", "onResponse: " +itemCount);
+
                     binding.recyclerViewCart.setAdapter(adapter);
                     binding.recyclerViewCart.setLayoutManager(new LinearLayoutManager(CartActivity.this, RecyclerView.VERTICAL, false));
+                    Total = caculateTotal(cartItemList);
+                    binding.toTalCart.setText(String.valueOf(Total));
                     Toast.makeText(CartActivity.this, "Call OK", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(CartActivity.this, "Lỗi" + response.errorBody(), Toast.LENGTH_SHORT).show();
@@ -69,17 +74,13 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
-    private void calculateTotal(List<CartItem> cartItemList) {
-        int totalQuantity = 0;
-        int totalPrice = 0;
+    private double caculateTotal(List<CartItem> cartItemList){
 
-        for (CartItem item : cartItemList) {
-            totalQuantity += item.getQuantity();
-            totalPrice += item.getPrice() * item.getQuantity();
+        for (CartItem item: cartItemList){
+            Log.d("t", "caculateTotal: "+item.getTotal_order());
+            Total += item.getTotal_order();
+            Log.d("to", "caculateTotal: "+Total);
         }
-        binding.toTalCart.setText(String.valueOf(totalPrice));
-        // Hiển thị kết quả hoặc sử dụng cho mục đích khác
-        Log.d("Total Quantity", "Total Quantity: " + totalQuantity);
-        Log.d("Total Price", "Total Price: " + totalPrice);
+        return Total;
     }
 }

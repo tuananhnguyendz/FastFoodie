@@ -25,9 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import poly.duan.fastfoodie.Model.Address;
+import poly.duan.fastfoodie.Model.ItemOrder;
+import poly.duan.fastfoodie.Model.Order;
 import poly.duan.fastfoodie.Model.Product;
 import poly.duan.fastfoodie.R;
 import poly.duan.fastfoodie.Service.ApiService;
+import poly.duan.fastfoodie.Service.OrderService;
 import poly.duan.fastfoodie.databinding.ActivityBuyBinding;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,6 +41,8 @@ public class BuyActivity extends AppCompatActivity {
     ActivityBuyBinding binding;
     ArrayAdapter<String> spinnerAdapter;
     String[] paymentMethod = {"Tiền mặt", "Thẻ tín dụng", "MoMo"};
+    private String selectedAddress;
+    private String methodPay;
 //    List<Address> addressList = new ArrayList<>(); // Thêm danh sách địa chỉ
 
 
@@ -49,12 +54,21 @@ public class BuyActivity extends AppCompatActivity {
 //        Product product = (Product) getIntent().getSerializableExtra("productId");
 //        binding.txtNameOrder.setText(product.getProductname());
 ////        binding.txtQuantityOrder.setText(product.get());
+
+        binding.btnBuyNow.setOnClickListener(v -> {
+
+
+            buyNow();
+        });
         getAddressUser();
         Intent intent = getIntent();
         if (intent != null) {
             Product product = (Product) intent.getSerializableExtra("productId");
             int quantity = intent.getIntExtra("quantity", 0);
-            int price = intent.getIntExtra("price", 0);
+            double price = intent.getIntExtra("price", 0);
+
+            String total = getIntent().getStringExtra("total");
+            String productname = String.valueOf(intent.getIntExtra("productname", 0));
 
 
             // Sau khi nhận được dữ liệu, bạn có thể hiển thị nó lên TextView hoặc bất kỳ thành phần nào khác
@@ -62,15 +76,16 @@ public class BuyActivity extends AppCompatActivity {
             binding.txtNameOrder.setText(product.getProductname());
             binding.txtQuantityOrder.setText(String.valueOf(quantity));
             binding.txtPriceOrder.setText(String.valueOf(price));
-
+            binding.total.setText(String.valueOf(total));
         }
 
         SharedPreferences sharedPreferences_name = this.getSharedPreferences("myPre", MODE_PRIVATE);
         String userName = sharedPreferences_name.getString("userName", ""); // Lấy tên người dùng từ SharedPreferences
         binding.txtNameUser.setText(userName);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
-        int phone = sharedPreferences.getInt("phone", 0); // Lấy số điện thoại từ SharedPreferences
+        // Lấy số điện thoại từ SharedPreferences
+        SharedPreferences sharedPreferencesPhone = getSharedPreferences("myPre", MODE_PRIVATE);
+        String phone = sharedPreferencesPhone.getString("phone", "");
         Log.d("Số điện thoại", "Số điện thoại lấy từ SharedPreferences: " + phone);
         binding.txtPhoneUser.setText(String.valueOf(phone));
 
@@ -84,6 +99,7 @@ public class BuyActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ///xử lí click chọn thanh toán
+                methodPay = parent.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -95,6 +111,7 @@ public class BuyActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ///xử lí click chọn địa chỉ
+                selectedAddress = parent.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -144,8 +161,8 @@ public class BuyActivity extends AppCompatActivity {
     }
 
     private void addToAddress() {
-        TextInputEditText edt_diachi;
-        Button btn_themDiachi;
+        TextInputEditText ed_address;
+        Button btn_add_address;
 
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.bottomsheet_buy, null);
@@ -153,15 +170,109 @@ public class BuyActivity extends AppCompatActivity {
         bottomSheetDialog.setContentView(view);
         bottomSheetDialog.show();
 
-        edt_diachi = view.findViewById(R.id.edt_diachi);
-        btn_themDiachi = view.findViewById(R.id.btn_address);
+        ed_address = view.findViewById(R.id.edt_diachi);
+        btn_add_address = view.findViewById(R.id.btn_address);
+        btn_add_address.setOnClickListener(v -> {
+            SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
+            String userId = sharedPreferences.getString("userId", "-1");
+            String address = ed_address.getText().toString();
 
-        btn_themDiachi.setOnClickListener(v -> {
-            String address = edt_diachi.getText().toString();
+            Address data =  new Address();
+            data.setUserId(userId);
 
+//            list.add(address);
+//            data.setAddress(list);
+
+            ApiService.api.addAddress(data).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if(response.isSuccessful()){
+                        Toast.makeText(BuyActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(BuyActivity.this, "Lỗi"+response.errorBody(), Toast.LENGTH_SHORT).show();
+                        Log.d("e", "onResponse: " +response.errorBody());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(BuyActivity.this, "Thất bại", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
+
+
 
     }
 
+    private void buyNow() {
+        SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", "-1");
+        SharedPreferences sharedPreferences_name = this.getSharedPreferences("myPre", MODE_PRIVATE);
+        String userName = sharedPreferences_name.getString("userName", "");
+        Intent intent = getIntent();
+
+        Product product = (Product) intent.getSerializableExtra("productId");
+        int quantity = intent.getIntExtra("quantity", 0);
+        Log.d("quantity", "buyNow: " +quantity);
+        double price = intent.getIntExtra("price", 0);
+        Log.d("price", "buyNow: " +price);
+        String total = getIntent().getStringExtra("total");
+        Log.d("total", "buyNow: " +total);
+        String productname = product.getProductname();
+        Log.d("productname", "buyNow: " +productname);
+        Log.d("address", "buyNow: " +selectedAddress);
+
+        List<ItemOrder> itemOrders = new ArrayList<>();
+        ItemOrder itemOrder = new ItemOrder();
+        itemOrder.setProductname(productname);
+        itemOrder.setQuantity(quantity);
+        itemOrder.setPrice(price);
+        itemOrders.add(itemOrder);
+        //
+        Order order = new Order();
+        order.setUsername(userName);
+        order.setTotal(Double.parseDouble(total));
+        order.setAddress(selectedAddress);
+        order.setItemOrders(itemOrders);
+        order.setPayment_method(methodPay);
+
+        OrderService.api.addOrder(order).enqueue(new Callback<Order>() {
+            @Override
+            public void onResponse(Call<Order> call, Response<Order> response) {
+                if (response.isSuccessful()){
+                    Order orderRes = response.body();
+                    String msg = orderRes.getMsg();
+
+                    showOrderSuccessDialog();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Order> call, Throwable t) {
+
+            }
+        });
+
+    }
+    private void showOrderSuccessDialog() {
+        // Hiển thị dialog thông báo đặt hàng thành công
+        AlertDialog.Builder builder = new AlertDialog.Builder(BuyActivity.this);
+        builder.setTitle("Đặt hàng thành công");
+        builder.setMessage("Cảm ơn bạn đã đặt hàng!");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Đóng dialog
+                dialog.dismiss();
+                // Chuyển đến hoạt động hoặc màn hình khác tùy theo nhu cầu của bạn
+                startActivity(new Intent(BuyActivity.this, MainActivity.class));
+
+            }
+        });
+        builder.setCancelable(false); // Không cho phép hủy dialog bằng cách nhấn nút back
+        builder.show();
+    }
 
 }

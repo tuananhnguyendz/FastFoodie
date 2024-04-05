@@ -14,6 +14,8 @@ public class User implements Serializable {
     private String email;
     @SerializedName("phone")
     private int phone;
+    @SerializedName("role")
+    private String role;
     @SerializedName("password")
     private String password;
     @SerializedName("cart")
@@ -23,11 +25,12 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String userId, String username, String email, int phone, String password, List<Cart> cart) {
+    public User(String userId, String username, String email, int phone,String role, String password, List<Cart> cart) {
         this.userId = userId;
         this.username = username;
         this.email = email;
         this.phone = phone;
+        this.role = role;
         this.password = password;
         this.cart = cart;
     }
@@ -62,6 +65,14 @@ public class User implements Serializable {
 
     public void setPhone(int phone) {
         this.phone = phone;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getPassword() {
