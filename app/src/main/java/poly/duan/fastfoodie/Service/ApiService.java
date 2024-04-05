@@ -9,6 +9,7 @@ import poly.duan.fastfoodie.Model.Address;
 import poly.duan.fastfoodie.Model.Cart;
 import poly.duan.fastfoodie.Model.CartItem;
 import poly.duan.fastfoodie.Model.CartResponse;
+import poly.duan.fastfoodie.Model.Password;
 import poly.duan.fastfoodie.Model.Product;
 import poly.duan.fastfoodie.Model.User;
 import poly.duan.fastfoodie.Model.WithList;
@@ -53,4 +54,6 @@ public interface ApiService {
     Call<Void> addAddress(@Body Address address);
     @POST("updateCart")
     Call<CartResponse> updateCart(@Body Cart cart);
+    @POST("ChangePass")
+    Call<Password> changepass(@Body Password password);
 }
