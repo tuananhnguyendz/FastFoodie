@@ -58,12 +58,15 @@ public class LoginActivity extends AppCompatActivity {
                     if (user_data != null) {
                         String userId = user_data.getUserId();
                         String phone = String.valueOf(user_data.getPhone());
-                        Log.d("phone", "phone: "+phone);
+
+//                        String phone = String.valueOf(user_data.getPhone());
+//                        Log.d("phone", "phone: "+phone);
                         Log.d("userId : ", "ID ở đây này :" + userId);
 
                         SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("userId", userId);
+                        editor.apply();
 
                         SharedPreferences sharedPreferencesPhone = getSharedPreferences("myPre", MODE_PRIVATE);
                         SharedPreferences.Editor editorPhone = sharedPreferencesPhone.edit();

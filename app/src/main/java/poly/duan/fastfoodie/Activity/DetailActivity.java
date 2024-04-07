@@ -89,10 +89,10 @@ public class DetailActivity extends AppCompatActivity {
     private void addToWithList(){
         SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", "-1");
+        Log.d("taList", "withList: "+userId);
 
         Product product = (Product) getIntent().getSerializableExtra("productId");
         String productId = product.getId();
-
 
         WithList withList = new WithList(userId,productId);
 
@@ -102,6 +102,7 @@ public class DetailActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     Toast.makeText(DetailActivity.this, "Đã thêm sản phẩm vào danh sách yêu thích của bạn", Toast.LENGTH_SHORT).show();
                 }else {
+
                     Toast.makeText(DetailActivity.this, "Thêm thất bại", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -117,19 +118,20 @@ public class DetailActivity extends AppCompatActivity {
     private void addToCart(){
         SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", "-1");
+        Log.d("ta", "addToCart: "+userId);
 
         Product product = (Product) getIntent().getSerializableExtra("productId");
         String productId = product.getId();
         int num = Integer.parseInt(binding.txtNumTotal.getText().toString());
         double price = Double.valueOf((binding.txtPriceDetail.getText().toString()));
         double total_order = Double.valueOf((binding.txtTotal.getText().toString()));
-        Log.d("userId","userId :" +userId);
+
         Log.d("pId","pId :" +productId);
         Log.d("num","num :" +num);
         Log.d("price","price :" +price);
         Log.d("total","total :" +total_order);
 
-        Cart cart = new Cart(userId, productId,price,total_order, quantity);
+        Cart cart = new Cart(userId, productId,price,total_order, num);
 
         ApiService.api.addToCart(cart).enqueue(new Callback<CartResponse>() {
             @Override

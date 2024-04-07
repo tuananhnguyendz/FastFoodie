@@ -1,97 +1,72 @@
 package poly.duan.fastfoodie.Activity;
 
-import static android.app.PendingIntent.getActivity;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.textfield.TextInputEditText;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import poly.duan.fastfoodie.Adapter.PlaceOrderAdapter;
 import poly.duan.fastfoodie.Model.Address;
+import poly.duan.fastfoodie.Model.CartItem;
 import poly.duan.fastfoodie.Model.ItemOrder;
 import poly.duan.fastfoodie.Model.Order;
 import poly.duan.fastfoodie.Model.Product;
 import poly.duan.fastfoodie.R;
 import poly.duan.fastfoodie.Service.ApiService;
 import poly.duan.fastfoodie.Service.OrderService;
-import poly.duan.fastfoodie.databinding.ActivityBuyBinding;
+import poly.duan.fastfoodie.databinding.ActivityPlaceOrderActivtyBinding;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BuyActivity extends AppCompatActivity {
+public class PlaceOrderActivty extends AppCompatActivity {
+    ActivityPlaceOrderActivtyBinding binding;
+    PlaceOrderAdapter adapter;
 
-    ActivityBuyBinding binding;
     ArrayAdapter<String> spinnerAdapter;
     String[] paymentMethod = {"Tiền mặt", "Thẻ tín dụng", "MoMo"};
     private String selectedAddress;
     private String methodPay;
-//    List<Address> addressList = new ArrayList<>(); // Thêm danh sách địa chỉ
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityBuyBinding.inflate(getLayoutInflater());
+        binding = ActivityPlaceOrderActivtyBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-//        Product product = (Product) getIntent().getSerializableExtra("productId");
-//        binding.txtNameOrder.setText(product.getProductname());
-////        binding.txtQuantityOrder.setText(product.get());
-
-        binding.btnBuyNow.setOnClickListener(v -> {
-
-            buyNow();
-        });
         getAddressUser();
-        Intent intent = getIntent();
-        if (intent != null) {
-            Product product = (Product) intent.getSerializableExtra("productId");
-            int quantity = intent.getIntExtra("quantity", 0);
-            int price = intent.getIntExtra("price", 0);
+        binding.btnBuyNowPlace.setOnClickListener(v -> {
+            PlaceOrder();
+        });
 
 
-            // Sau khi nhận được dữ liệu, bạn có thể hiển thị nó lên TextView hoặc bất kỳ thành phần nào khác
-            // Ví dụ:
-            binding.txtNameOrder.setText(product.getProductname());
-            binding.txtQuantityOrder.setText(String.valueOf(quantity));
-            binding.txtPriceOrder.setText(String.valueOf(price));
+        List<CartItem> cartItemList = (List<CartItem>) getIntent().getSerializableExtra("cartItemList");
+        Log.d("VCL", "onCreate: "+cartItemList);
+        double totalAmount = getIntent().getDoubleExtra("totalAmount", 0);
+        binding.totalPlace.setText(String.valueOf(totalAmount));
 
-        }
-
-        SharedPreferences sharedPreferences_name = this.getSharedPreferences("myPre", MODE_PRIVATE);
-        String userName = sharedPreferences_name.getString("userName", ""); // Lấy tên người dùng từ SharedPreferences
-        binding.txtNameUser.setText(userName);
-
-        // Lấy số điện thoại từ SharedPreferences
-        SharedPreferences sharedPreferencesPhone = getSharedPreferences("myPre", MODE_PRIVATE);
-        String phone = sharedPreferencesPhone.getString("phone", "");
-        Log.d("Số điện thoại", "Số điện thoại lấy từ SharedPreferences: " + phone);
-        binding.txtPhoneUser.setText(String.valueOf(phone));
+        adapter = new PlaceOrderAdapter(cartItemList);
+        binding.recyclerViewPlaceOrder.setAdapter(adapter);
+        binding.recyclerViewPlaceOrder.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
 
 
         spinnerAdapter = new ArrayAdapter<>(this, R.layout.sp_item, paymentMethod);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinnerPayment.setAdapter(spinnerAdapter);
+        binding.spinnerPaymentPlace.setAdapter(spinnerAdapter);
 
-
-        binding.spinnerPayment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.spinnerPaymentPlace.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ///xử lí click chọn thanh toán
@@ -103,7 +78,8 @@ public class BuyActivity extends AppCompatActivity {
 
             }
         });
-        binding.spinnerLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        binding.spinnerLocationPlace.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ///xử lí click chọn địa chỉ
@@ -116,9 +92,6 @@ public class BuyActivity extends AppCompatActivity {
             }
         });
 
-        binding.btnAddtoAddress.setOnClickListener(v -> {
-            addToAddress();
-        });
 
     }
 
@@ -128,14 +101,13 @@ public class BuyActivity extends AppCompatActivity {
         Log.d("ID nè", "ở Address " + userId);
         Address address = new Address();
         address.setUserId(userId);
-
         ApiService.api.getAddress(address).enqueue(new Callback<Address>() {
             @Override
             public void onResponse(Call<Address> call, Response<Address> response) {
                 if (response.isSuccessful()) {
 
                     Address a = response.body();
-                    Log.d("Address", "onResponse: " + a.getAddress());
+                    Log.d("Address2", "onResponse: " + a.getAddress());
 //                    List<String> addressList = a.getAddress(); // tạo list để gán dữ liệu lên adapter
                     List<String> addressList = new ArrayList<>();
                     for (String address : a.getAddress()) {
@@ -143,71 +115,25 @@ public class BuyActivity extends AppCompatActivity {
                             addressList.add(address);
                         }
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(BuyActivity.this, R.layout.sp_item, addressList);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(PlaceOrderActivty.this, R.layout.sp_item, addressList);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    binding.spinnerLocation.setAdapter(adapter);
-                    Toast.makeText(BuyActivity.this, "OK", Toast.LENGTH_SHORT).show();
-
+                    binding.spinnerLocationPlace.setAdapter(adapter);
+                    Toast.makeText(PlaceOrderActivty.this, "OK", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(BuyActivity.this, "OK" + response.errorBody(), Toast.LENGTH_SHORT).show();
-                    Log.d("ERROR222222", "onResponse: " + response.errorBody());
+                    Toast.makeText(PlaceOrderActivty.this, "OK" + response.errorBody(), Toast.LENGTH_SHORT).show();
+                    Log.d("ERROR2222223333", "onResponse: " + response.errorBody());
                 }
             }
 
             @Override
             public void onFailure(Call<Address> call, Throwable t) {
-                Toast.makeText(BuyActivity.this, "OK" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(PlaceOrderActivty.this, "OK" + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.d("ERROR33333", "onResponse: " + t.getMessage());
             }
         });
     }
 
-    private void addToAddress() {
-        TextInputEditText ed_address;
-        Button btn_add_address;
-
-        LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.bottomsheet_buy, null);
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(BuyActivity.this);
-        bottomSheetDialog.setContentView(view);
-        bottomSheetDialog.show();
-
-        ed_address = view.findViewById(R.id.edt_diachi);
-        btn_add_address = view.findViewById(R.id.btn_address);
-        btn_add_address.setOnClickListener(v -> {
-            SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
-            String userId = sharedPreferences.getString("userId", "-1");
-            String address = ed_address.getText().toString();
-
-            Address data =  new Address();
-            data.setUserId(userId);
-
-//            list.add(address);
-//            data.setAddress(list);
-
-            ApiService.api.addAddress(data).enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if(response.isSuccessful()){
-                        Toast.makeText(BuyActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(BuyActivity.this, "Lỗi"+response.errorBody(), Toast.LENGTH_SHORT).show();
-                        Log.d("e", "onResponse: " +response.errorBody());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    Toast.makeText(BuyActivity.this, "Thất bại", Toast.LENGTH_SHORT).show();
-                }
-            });
-        });
-
-
-
-    }
-
-    private void buyNow() {
+    private void PlaceOrder(){
         SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", "-1");
         SharedPreferences sharedPreferences_name = this.getSharedPreferences("myPre", MODE_PRIVATE);
@@ -215,7 +141,8 @@ public class BuyActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
 
-        Product product = (Product) intent.getSerializableExtra("productId");
+        Product product = (Product) getIntent().getSerializableExtra("productId");
+        Log.d("null mẹ rồi", "PlaceOrder: "+product);
         int quantity = intent.getIntExtra("quantity", 0);
         Log.d("quantity", "buyNow: " +quantity);
         double price = intent.getIntExtra("price", 0);
@@ -246,7 +173,7 @@ public class BuyActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     Order orderRes = response.body();
                     String msg = orderRes.getMsg();
-
+                    Log.d("helo", "onResponse: "+msg);
                     showOrderSuccessDialog();
 
                 }
@@ -254,14 +181,13 @@ public class BuyActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Order> call, Throwable t) {
-
+                Toast.makeText(PlaceOrderActivty.this, "Failed", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
     private void showOrderSuccessDialog() {
         // Hiển thị dialog thông báo đặt hàng thành công
-        AlertDialog.Builder builder = new AlertDialog.Builder(BuyActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(PlaceOrderActivty.this);
         builder.setTitle("Đặt hàng thành công");
         builder.setMessage("Cảm ơn bạn đã đặt hàng!");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -270,12 +196,11 @@ public class BuyActivity extends AppCompatActivity {
                 // Đóng dialog
                 dialog.dismiss();
                 // Chuyển đến hoạt động hoặc màn hình khác tùy theo nhu cầu của bạn
-                startActivity(new Intent(BuyActivity.this, MainActivity.class));
+                startActivity(new Intent(PlaceOrderActivty.this, MainActivity.class));
 
             }
         });
         builder.setCancelable(false); // Không cho phép hủy dialog bằng cách nhấn nút back
         builder.show();
     }
-
 }

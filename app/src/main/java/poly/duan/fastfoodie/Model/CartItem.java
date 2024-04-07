@@ -2,13 +2,15 @@ package poly.duan.fastfoodie.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CartItem {
+import java.io.Serializable;
+
+public class CartItem implements Serializable {
+    private boolean isChecked;
 
     @SerializedName("productId")
     private String productId;
     @SerializedName("productname")
     private String productname;
-
 
     @SerializedName("quantity")
     private int quantity;
@@ -27,6 +29,18 @@ public class CartItem {
         this.quantity = quantity;
         this.price = price;
         this.total_order = total_order;
+    }
+
+    public CartItem(boolean isChecked) {
+        this.isChecked = isChecked;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 
     public String getProductId() {

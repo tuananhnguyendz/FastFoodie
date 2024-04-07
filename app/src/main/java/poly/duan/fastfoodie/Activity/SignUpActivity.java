@@ -76,13 +76,14 @@ public class SignUpActivity extends AppCompatActivity {
                     editor.putString("userName",username);
                     editor.apply();
 
-                    int phone = Integer.parseInt(phoneText); // Chuyển đổi chuỗi sang kiểu int
 
+                    int phone = Integer.parseInt(phoneText); // Chuyển đổi chuỗi sang kiểu int
 // Lưu số điện thoại vào SharedPreferences dưới dạng kiểu int
                     SharedPreferences sharedPreferences_phone = getSharedPreferences("myPre",MODE_PRIVATE);
-                    SharedPreferences.Editor editor_phone = sharedPreferences.edit();
-                    editor.putInt("phone", phone);
-                    editor.apply();
+                    SharedPreferences.Editor editor_phone = sharedPreferences_phone.edit();
+                    editor_phone.putInt("phone", phone);
+                    editor_phone.apply();
+
                     Toast.makeText(SignUpActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
 

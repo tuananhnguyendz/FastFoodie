@@ -2,6 +2,7 @@ package poly.duan.fastfoodie.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,11 +41,20 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 password.setNewpassword(newpass);
                 password.setConfirmpassword(confimpass);
 
+                if (oldpassword.isEmpty()||newpass.isEmpty()||confimpass.isEmpty()){
+                    Toast.makeText(ChangePasswordActivity.this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                } else if (newpass.length() <6 || confimpass.length()<6) {
+                    Toast.makeText(ChangePasswordActivity.this, "Mật khẩu phải lớn hơn 6 kí tự", Toast.LENGTH_SHORT).show();
+                } else if (!newpass.equals(confimpass)) {
+                    Toast.makeText(ChangePasswordActivity.this, "Mật khẩu không trùng khớp ", Toast.LENGTH_SHORT).show();
+                }
+
                 ApiService.api.changepass(password).enqueue(new Callback<Password>() {
                     @Override
                     public void onResponse(Call<Password> call, Response<Password> response) {
                         if(response.isSuccessful()){
                             Toast.makeText(ChangePasswordActivity.this, "Thành công", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(ChangePasswordActivity.this, LoginActivity.class));
 
                         }else{
                             Toast.makeText(ChangePasswordActivity.this, "Thất Bại", Toast.LENGTH_SHORT).show();
