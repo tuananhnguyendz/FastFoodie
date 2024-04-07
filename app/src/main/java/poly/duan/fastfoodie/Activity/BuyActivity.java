@@ -24,6 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.List;
 
+import poly.duan.fastfoodie.Fragment.NotificationFragment;
 import poly.duan.fastfoodie.Model.Address;
 import poly.duan.fastfoodie.Model.ItemOrder;
 import poly.duan.fastfoodie.Model.Order;
@@ -56,11 +57,11 @@ public class BuyActivity extends AppCompatActivity {
 ////        binding.txtQuantityOrder.setText(product.get());
 
         binding.btnBuyNow.setOnClickListener(v -> {
-
-
             buyNow();
         });
+
         getAddressUser();
+
         Intent intent = getIntent();
         if (intent != null) {
             Product product = (Product) intent.getSerializableExtra("productId");
@@ -112,6 +113,8 @@ public class BuyActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ///xử lí click chọn địa chỉ
                 selectedAddress = parent.getItemAtPosition(position).toString();
+
+
             }
 
             @Override
@@ -136,8 +139,7 @@ public class BuyActivity extends AppCompatActivity {
         ApiService.api.getAddress(address).enqueue(new Callback<Address>() {
             @Override
             public void onResponse(Call<Address> call, Response<Address> response) {
-                if (response.isSuccessful()) {
-
+                if (response.isSuccessful() && response.body() != null) {
                     Address a = response.body();
                     Log.d("Address", "onResponse: " + a.getAddress());
                     List<String> addressList = a.getAddress(); // tạo list để gán dữ liệu lên adapter
@@ -145,10 +147,9 @@ public class BuyActivity extends AppCompatActivity {
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     binding.spinnerLocation.setAdapter(adapter);
                     Toast.makeText(BuyActivity.this, "OK", Toast.LENGTH_SHORT).show();
-
                 } else {
-                    Toast.makeText(BuyActivity.this, "OK" + response.errorBody(), Toast.LENGTH_SHORT).show();
-                    Log.d("ERROR222222", "onResponse: " + response.errorBody());
+                    Toast.makeText(BuyActivity.this, "Response unsuccessful or body is null", Toast.LENGTH_SHORT).show();
+                    Log.d("ERROR222222", "onResponse: Response unsuccessful or body is null");
                 }
             }
 
@@ -168,7 +169,6 @@ public class BuyActivity extends AppCompatActivity {
         View view = inflater.inflate(R.layout.bottomsheet_buy, null);
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(BuyActivity.this);
         bottomSheetDialog.setContentView(view);
-        bottomSheetDialog.show();
 
         ed_address = view.findViewById(R.id.edt_diachi);
         btn_add_address = view.findViewById(R.id.btn_address);
@@ -177,33 +177,33 @@ public class BuyActivity extends AppCompatActivity {
             String userId = sharedPreferences.getString("userId", "-1");
             String address = ed_address.getText().toString();
 
-            Address data =  new Address();
-            data.setUserId(userId);
+            Log.d("TAG", "addToAddress: " + userId);
 
-//            list.add(address);
-//            data.setAddress(list);
-
-            ApiService.api.addAddress(data).enqueue(new Callback<Void>() {
+            ApiService.api.addAddress(userId, address).enqueue(new Callback<Address>() {
                 @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
-                    if(response.isSuccessful()){
+                public void onResponse(Call<Address> call, Response<Address> response) {
+                    if (response.isSuccessful()) {
                         Toast.makeText(BuyActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(BuyActivity.this, "Lỗi"+response.errorBody(), Toast.LENGTH_SHORT).show();
-                        Log.d("e", "onResponse: " +response.errorBody());
+                        getAddressUser();
+                        bottomSheetDialog.dismiss(); // Tắt BottomSheetDialog sau khi thêm thành công
+                    } else {
+                        Toast.makeText(BuyActivity.this, "Lỗi" + response.errorBody(), Toast.LENGTH_SHORT).show();
+                        Log.d("e", "onResponse: " + response.errorBody());
                     }
                 }
 
                 @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    Toast.makeText(BuyActivity.this, "Thất bại", Toast.LENGTH_SHORT).show();
+                public void onFailure(Call<Address> call, Throwable t) {
+                    Log.d("TAG", "onFailure: " + t.toString());
+                    getAddressUser();
+                    bottomSheetDialog.dismiss();
                 }
             });
         });
 
-
-
+        bottomSheetDialog.show();
     }
+
 
     private void buyNow() {
         SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
@@ -243,7 +243,7 @@ public class BuyActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     Order orderRes = response.body();
                     String msg = orderRes.getMsg();
-
+                    Log.d("msg", "onResponse: "+msg);
                     showOrderSuccessDialog();
 
                 }

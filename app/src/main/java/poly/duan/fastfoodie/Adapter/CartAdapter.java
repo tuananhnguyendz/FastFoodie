@@ -43,15 +43,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewHolder> {
         holder.totalCart.setText(String.valueOf(totalItem));
         totalAmount += totalItem;
 
-//        holder.minCart.setOnClickListener(v -> {
-//            if (item.getQuantity() > 1) {
-//                item.setQuantity(item.getQuantity() - 1);
-//                holder.numCart.setText(String.valueOf(item.getQuantity()));
-//
-//                double newTotal = item.getPrice() * item.getQuantity();
-//                holder.totalCart.setText(String.valueOf(newTotal));
-//            }
-//        });
 
         holder.minCart.setOnClickListener(v -> {
             if (item.getQuantity() > 1) {
@@ -104,7 +95,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewHolder> {
             totalCart = itemView.findViewById(R.id.txt_toTalCart);
             priceCart = itemView.findViewById(R.id.txt_priceCart);
             nameCart = itemView.findViewById(R.id.txt_title_cart);
-
 
         }
     }
