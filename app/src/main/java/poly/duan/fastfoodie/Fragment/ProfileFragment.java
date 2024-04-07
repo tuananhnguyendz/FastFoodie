@@ -45,6 +45,8 @@ public class ProfileFragment extends Fragment {
         binding.txtFavorite.setOnClickListener(v -> {
             startActivity(new Intent(getContext(), FavouriteActivity.class));
         });
+
+
         return binding.getRoot();
     }
 

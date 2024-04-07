@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,7 +11,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import poly.duan.fastfoodie.Model.CartItem;
@@ -98,19 +96,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewHolder> {
     public int getItemCount() {
         return list.size();
     }
-    public List<CartItem> getSelectedItems() {
-        List<CartItem> selectedItems = new ArrayList<>();
-        for (CartItem item : list) {
-            if (item.isChecked()) {
-                selectedItems.add(item);
-            }
-        }
-        return selectedItems;
-    }
+
     public class viewHolder extends RecyclerView.ViewHolder {
         ImageView img_picCart;
         TextView minCart, maxCart, numCart, totalCart, priceCart, nameCart;
-        CheckBox cboCart;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
@@ -121,7 +110,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewHolder> {
             totalCart = itemView.findViewById(R.id.txt_toTalCart);
             priceCart = itemView.findViewById(R.id.txt_priceCart);
             nameCart = itemView.findViewById(R.id.txt_title_cart);
-            cboCart = itemView.findViewById(R.id.checkbox);
+
 
         }
     }

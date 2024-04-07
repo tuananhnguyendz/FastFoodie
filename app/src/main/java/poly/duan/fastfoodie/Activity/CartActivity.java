@@ -4,13 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.Serializable;
 import java.util.List;
 
 import poly.duan.fastfoodie.Adapter.CartAdapter;
@@ -28,8 +26,6 @@ public class CartActivity extends AppCompatActivity {
     ActivityCartBinding binding;
     private double Total = 0;
     private int itemCount = 0;
-    List<CartItem> itemList;
-    private CartAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +43,9 @@ public class CartActivity extends AppCompatActivity {
 
         });
 
+        binding.buttonOrder.setOnClickListener(v -> {
+            Toast.makeText(this, "Total"+Total, Toast.LENGTH_SHORT).show();
+        });
 
         getCart();
 
@@ -64,15 +63,14 @@ public class CartActivity extends AppCompatActivity {
             public void onResponse(Call<List<CartItem>> call, Response<List<CartItem>> response) {
                 if (response.isSuccessful()) {
 
-//                    List<CartItem> cartItemList = response.body();
-                    itemList = response.body();
-                   adapter = new CartAdapter(itemList);
-                    itemCount = itemList.size();
+                    List<CartItem> cartItemList = response.body();
+                    CartAdapter adapter = new CartAdapter(cartItemList);
+                    itemCount = cartItemList.size();
                     Log.d("count", "onResponse: " +itemCount);
 
                     binding.recyclerViewCart.setAdapter(adapter);
                     binding.recyclerViewCart.setLayoutManager(new LinearLayoutManager(CartActivity.this, RecyclerView.VERTICAL, false));
-                    Total = caculateTotal(itemList);
+                    Total = caculateTotal(cartItemList);
                     binding.toTalCart.setText(String.valueOf(Total));
                     Toast.makeText(CartActivity.this, "Call OK", Toast.LENGTH_SHORT).show();
                 } else {

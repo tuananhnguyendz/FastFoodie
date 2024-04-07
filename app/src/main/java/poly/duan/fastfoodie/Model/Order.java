@@ -17,6 +17,8 @@ public class Order {
     private List<ItemOrder> itemOrders;
     @SerializedName("msg")
     private String msg;
+    @SerializedName("status")
+    private String status;
 
 
     public Order() {
@@ -26,6 +28,7 @@ public class Order {
         this.payment_method = payment_method;
         this.itemOrders = itemOrders;
         this.msg = msg;
+        this.status = status;
     }
 
     public String getUsername() {
@@ -44,16 +47,12 @@ public class Order {
         this.total = total;
     }
 
-    public String getAddress(String selectedAddress) {
+    public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getAddress() {
-        return address;
     }
 
     public String getPayment_method() {
@@ -78,5 +77,13 @@ public class Order {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

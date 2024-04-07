@@ -64,7 +64,10 @@ public class BuyActivity extends AppCompatActivity {
         if (intent != null) {
             Product product = (Product) intent.getSerializableExtra("productId");
             int quantity = intent.getIntExtra("quantity", 0);
-            int price = intent.getIntExtra("price", 0);
+            double price = intent.getIntExtra("price", 0);
+
+            String total = getIntent().getStringExtra("total");
+            String productname = String.valueOf(intent.getIntExtra("productname", 0));
 
 
             // Sau khi nhận được dữ liệu, bạn có thể hiển thị nó lên TextView hoặc bất kỳ thành phần nào khác
@@ -72,7 +75,7 @@ public class BuyActivity extends AppCompatActivity {
             binding.txtNameOrder.setText(product.getProductname());
             binding.txtQuantityOrder.setText(String.valueOf(quantity));
             binding.txtPriceOrder.setText(String.valueOf(price));
-
+            binding.total.setText(String.valueOf(total));
         }
 
         SharedPreferences sharedPreferences_name = this.getSharedPreferences("myPre", MODE_PRIVATE);
@@ -136,13 +139,7 @@ public class BuyActivity extends AppCompatActivity {
 
                     Address a = response.body();
                     Log.d("Address", "onResponse: " + a.getAddress());
-//                    List<String> addressList = a.getAddress(); // tạo list để gán dữ liệu lên adapter
-                    List<String> addressList = new ArrayList<>();
-                    for (String address : a.getAddress()) {
-                        if (address != null) {
-                            addressList.add(address);
-                        }
-                    }
+                    List<String> addressList = a.getAddress(); // tạo list để gán dữ liệu lên adapter
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(BuyActivity.this, R.layout.sp_item, addressList);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     binding.spinnerLocation.setAdapter(adapter);
@@ -213,7 +210,6 @@ public class BuyActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences_name = this.getSharedPreferences("myPre", MODE_PRIVATE);
         String userName = sharedPreferences_name.getString("userName", "");
         Intent intent = getIntent();
-
 
         Product product = (Product) intent.getSerializableExtra("productId");
         int quantity = intent.getIntExtra("quantity", 0);
