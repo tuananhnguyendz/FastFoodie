@@ -1,8 +1,5 @@
 package poly.duan.fastfoodie.Service;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.List;
 
 import poly.duan.fastfoodie.Model.Address;
@@ -16,10 +13,11 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public interface ApiService {
-    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
     ApiService api = new Retrofit.Builder()
             .baseUrl("http://10.0.2.2:3000/")
@@ -36,7 +34,6 @@ public interface ApiService {
     @POST("addToWithList")
     Call<WithList> addToWithList(@Body WithList withList);
 
-
     @POST("addToCart")
     Call<CartResponse> addToCart(@Body Cart cart);
 
@@ -49,8 +46,13 @@ public interface ApiService {
     @POST("getAddress")
     Call<Address> getAddress(@Body Address address);
 
+    @FormUrlEncoded
     @POST("addAddress")
-    Call<Void> addAddress(@Body Address address);
+    Call<Address> addAddress(
+            @Field("userId") String userId,
+            @Field("address") String address
+    );
+
     @POST("updateCart")
     Call<CartResponse> updateCart(@Body Cart cart);
 }

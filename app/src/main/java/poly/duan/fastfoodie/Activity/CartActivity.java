@@ -32,6 +32,9 @@ public class CartActivity extends AppCompatActivity {
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.buttonOrder.setOnClickListener(v -> {
+            Toast.makeText(this, "Total"+Total, Toast.LENGTH_SHORT).show();
+        });
 
         getCart();
 
