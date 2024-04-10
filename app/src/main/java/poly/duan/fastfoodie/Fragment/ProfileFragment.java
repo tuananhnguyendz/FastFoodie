@@ -9,10 +9,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import poly.duan.fastfoodie.Activity.ChangePasswordActivity;
@@ -23,6 +25,7 @@ import poly.duan.fastfoodie.databinding.FragmentProfileBinding;
 
 public class ProfileFragment extends Fragment {
     FragmentProfileBinding binding;
+//    FragmentManager fragmentManager;
 
 
     @Override
@@ -34,6 +37,7 @@ public class ProfileFragment extends Fragment {
         String userName = sharedPreferences_name.getString("mail", ""); // Lấy tên người dùng từ SharedPreferences
 
         // Gán tên người dùng vào TextView hoặc phần tử giao diện tương ứng
+//        fragmentManager = getChildFragmentManager();
         binding.txtNameProfile.setText(userName);
 
         binding.txtDoimkProfile.setOnClickListener(v -> {
@@ -44,6 +48,14 @@ public class ProfileFragment extends Fragment {
         });
         binding.txtFavorite.setOnClickListener(v -> {
             startActivity(new Intent(getContext(), FavouriteActivity.class));
+        });
+        binding.txtOrder.setOnClickListener(v -> {
+//            fragmentManager.popBackStack();
+//
+//            // Thêm fragment mới (OrderFragment)
+//            OrderFragment orderFragment = new OrderFragment();
+//            fragmentManager.beginTransaction().replace(R.id.fragment_container_order, orderFragment,"OrderFragmentTag").addToBackStack(null).commit();
+
         });
 
 

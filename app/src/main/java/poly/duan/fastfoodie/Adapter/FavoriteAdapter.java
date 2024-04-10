@@ -2,6 +2,7 @@ package poly.duan.fastfoodie.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,12 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.viewHo
 
     @Override
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
+        TypedArray images = context.getResources().obtainTypedArray(R.array.product_images);
+
+        // Gán ảnh từ danh sách tài nguyên drawable cho từng sản phẩm
+        holder.pic_list.setImageResource(images.getResourceId(position, -1));
+
+        images.recycle();
 
         Product product = productList.get(position);
 

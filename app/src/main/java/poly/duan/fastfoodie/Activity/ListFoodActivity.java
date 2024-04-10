@@ -71,7 +71,7 @@ public class ListFoodActivity extends AppCompatActivity {
                     for (Product pro : productList) {
                         Log.d("Product", "FFFFF :" + pro.getId() + pro.getProductname() + pro.getDescription() + pro.getPrice() + pro.getImageproduct());
                     }
-                    Toast.makeText(ListFoodActivity.this, "Call API THÀNH CÔNG", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ListFoodActivity.this, "Call API THÀNH CÔNG", Toast.LENGTH_SHORT).show();
                     listFoodAdapter = new ListFoodAdapter(productList);
                     binding.recyeListfood.setAdapter(listFoodAdapter);
                     binding.recyeListfood.setLayoutManager(new GridLayoutManager(ListFoodActivity.this, 2));

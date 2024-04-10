@@ -22,7 +22,7 @@ public interface ApiService {
 
     ApiService api = new Retrofit.Builder()
             .baseUrl("http://10.0.2.2:3000/")
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService.class);
 
@@ -58,4 +58,6 @@ public interface ApiService {
     Call<CartResponse> updateCart(@Body Cart cart);
     @POST("ChangePass")
     Call<Password> changepass(@Body Password password);
+
+
 }

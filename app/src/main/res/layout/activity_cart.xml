@@ -54,7 +54,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/grey_bachground"
                 app:layout_constraintBottom_toBottomOf="parent">
@@ -63,23 +63,26 @@
                     android:id="@+id/textView25"
                     android:layout_width="53dp"
                     android:layout_height="32dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
                     android:text="Tổng"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:layout_marginStart="10dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/toTal_cart"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
+                    android:layout_marginTop="10dp"
                     android:text=""
+                    android:layout_marginEnd="50dp"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

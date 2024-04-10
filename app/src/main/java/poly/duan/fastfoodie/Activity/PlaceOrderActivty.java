@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import poly.duan.fastfoodie.Adapter.PlaceOrderAdapter;
+import poly.duan.fastfoodie.Fragment.NotificationFragment;
 import poly.duan.fastfoodie.Model.Address;
 import poly.duan.fastfoodie.Model.CartItem;
 import poly.duan.fastfoodie.Model.ItemOrder;
@@ -47,14 +49,28 @@ public class PlaceOrderActivty extends AppCompatActivity {
         binding = ActivityPlaceOrderActivtyBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getAddressUser();
+
+        binding.btnHuyBuyPlace.setOnClickListener(v -> {
+            finish();
+        });
         binding.btnBuyNowPlace.setOnClickListener(v -> {
             PlaceOrder();
         });
 
 
         List<CartItem> cartItemList = (List<CartItem>) getIntent().getSerializableExtra("cartItemList");
-        Log.d("VCL", "onCreate: "+cartItemList);
-        double totalAmount = getIntent().getDoubleExtra("totalAmount", 0);
+        Log.d("VCL", "onCreate: " + cartItemList);
+//        double totalAmount = getIntent().getDoubleExtra("totalAmount", 0);
+//        binding.totalPlace.setText(String.valueOf(totalAmount));
+        double totalAmount = 0;
+
+// Tính toán lại tổng tiền dựa trên danh sách các mặt hàng được chọn
+        for (CartItem item : cartItemList) {
+            //tính tổng số tiền của mỗi mặt hàng rồi nhân với sô lượng tương ứng và cộng vào biến totalAmount
+            totalAmount += item.getPrice() * item.getQuantity();
+        }
+
+// Đặt lại tổng tiền cho giao diện
         binding.totalPlace.setText(String.valueOf(totalAmount));
 
         adapter = new PlaceOrderAdapter(cartItemList);
@@ -133,7 +149,7 @@ public class PlaceOrderActivty extends AppCompatActivity {
         });
     }
 
-    private void PlaceOrder(){
+    private void PlaceOrder() {
         SharedPreferences sharedPreferences = getSharedPreferences("myPre", MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", "-1");
         SharedPreferences sharedPreferences_name = this.getSharedPreferences("myPre", MODE_PRIVATE);
@@ -141,28 +157,40 @@ public class PlaceOrderActivty extends AppCompatActivity {
         Intent intent = getIntent();
 
 
-        Product product = (Product) getIntent().getSerializableExtra("productId");
-        Log.d("null mẹ rồi", "PlaceOrder: "+product);
-        int quantity = intent.getIntExtra("quantity", 0);
-        Log.d("quantity", "buyNow: " +quantity);
-        double price = intent.getIntExtra("price", 0);
-        Log.d("price", "buyNow: " +price);
-        String total = getIntent().getStringExtra("total");
-        Log.d("total", "buyNow: " +total);
-        String productname = product.getProductname();
-        Log.d("productname", "buyNow: " +productname);
-        Log.d("address", "buyNow: " +selectedAddress);
+        List<CartItem> cartItemList = (List<CartItem>) getIntent().getSerializableExtra("cartItemList");
+        Log.d("VCL", "onCreate: " + cartItemList);
+//        double totalAmount = getIntent().getDoubleExtra("totalAmount", 0);
+//        Log.d("totalAmount", "onCreate: " + totalAmount);
+        double totalAmount = 0;
+
+// Tính toán lại tổng tiền dựa trên danh sách các mặt hàng được chọn
+        for (CartItem item : cartItemList) {
+            totalAmount += item.getPrice() * item.getQuantity();
+        }
 
         List<ItemOrder> itemOrders = new ArrayList<>();
-        ItemOrder itemOrder = new ItemOrder();
-        itemOrder.setProductname(productname);
-        itemOrder.setQuantity(quantity);
-        itemOrder.setPrice(price);
-        itemOrders.add(itemOrder);
+
+        for (CartItem ca : cartItemList) {
+            String productname = ca.getProductname();
+            Log.d("productname", "PlaceOrder: " + productname);
+            int quantity = ca.getQuantity();
+            Log.d("quantity", "PlaceOrder: " + quantity);
+            double price = ca.getPrice();
+            Log.d("price", "PlaceOrder: " + price);
+
+            ItemOrder itemOrder = new ItemOrder();
+            itemOrder.setProductname(productname);
+            itemOrder.setQuantity(quantity);
+            itemOrder.setPrice(price);
+            itemOrders.add(itemOrder);
+
+        }
+
+
         //
         Order order = new Order();
         order.setUsername(userName);
-        order.setTotal(Double.parseDouble(total));
+        order.setTotal(Double.parseDouble(String.valueOf(totalAmount)));
         order.setAddress(selectedAddress);
         order.setItemOrders(itemOrders);
         order.setPayment_method(methodPay);
@@ -170,10 +198,10 @@ public class PlaceOrderActivty extends AppCompatActivity {
         OrderService.api.addOrder(order).enqueue(new Callback<Order>() {
             @Override
             public void onResponse(Call<Order> call, Response<Order> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     Order orderRes = response.body();
                     String msg = orderRes.getMsg();
-                    Log.d("helo", "onResponse: "+msg);
+                    Log.d("helo", "onResponse: " + msg);
                     showOrderSuccessDialog();
 
                 }
@@ -185,7 +213,9 @@ public class PlaceOrderActivty extends AppCompatActivity {
             }
         });
     }
+
     private void showOrderSuccessDialog() {
+
         // Hiển thị dialog thông báo đặt hàng thành công
         AlertDialog.Builder builder = new AlertDialog.Builder(PlaceOrderActivty.this);
         builder.setTitle("Đặt hàng thành công");
@@ -195,6 +225,7 @@ public class PlaceOrderActivty extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 // Đóng dialog
                 dialog.dismiss();
+                // Truyền dữ liệu cần hiển thị
                 // Chuyển đến hoạt động hoặc màn hình khác tùy theo nhu cầu của bạn
                 startActivity(new Intent(PlaceOrderActivty.this, MainActivity.class));
 

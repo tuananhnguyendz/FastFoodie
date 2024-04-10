@@ -42,7 +42,7 @@ public class BestfoodAdapter extends RecyclerView.Adapter<BestfoodAdapter.viewHo
         Product product = list_food.get(position);
 
         holder.txt_productName.setText(list_food.get(position).getProductname());
-        holder.txt_price.setText("$"+String.valueOf(list_food.get(position).getPrice()));
+        holder.txt_price.setText(String.valueOf(list_food.get(position).getPrice()+""+"đ"));
 
 //         Lấy danh sách tài nguyên drawable
         TypedArray images = context.getResources().obtainTypedArray(R.array.product_images);

@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.List;
 
 import poly.duan.fastfoodie.Adapter.CartAdapter;
@@ -26,25 +28,20 @@ public class CartActivity extends AppCompatActivity {
     ActivityCartBinding binding;
     private double Total = 0;
     private int itemCount = 0;
+    CartAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.buttonPlaceOrder.setOnClickListener(v -> {
+        binding.buttonOrder.setOnClickListener(v -> {
             List<CartItem> selectedItems = adapter.getSelectedItems();// bên adapter
-
             Intent intent = new Intent(CartActivity.this, PlaceOrderActivty.class);
             intent.putExtra("cartItemList", (Serializable) selectedItems);
             //không cần truyền itemlist nữa vì đã lấy được danh sách từ các mục ở adapter
-            intent.putExtra("totalAmount", Total);
+            intent.putExtra("totalAmount",Total); // Sử dụng tổng tiền đã được cập nhật trong Adapter
             startActivity(intent);
-
-        });
-
-        binding.buttonOrder.setOnClickListener(v -> {
-            Toast.makeText(this, "Total"+Total, Toast.LENGTH_SHORT).show();
         });
 
         getCart();
@@ -64,7 +61,7 @@ public class CartActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
 
                     List<CartItem> cartItemList = response.body();
-                    CartAdapter adapter = new CartAdapter(cartItemList);
+                    adapter = new CartAdapter(cartItemList);
                     itemCount = cartItemList.size();
                     Log.d("count", "onResponse: " +itemCount);
 

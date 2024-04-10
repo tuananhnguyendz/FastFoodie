@@ -17,7 +17,6 @@
         <activity
             android:name=".Activity.PlaceOrderActivty"
             android:exported="false" />
-
         <activity
             android:name=".Activity.BuyActivity"
             android:exported="false" />
@@ -46,20 +45,19 @@
             android:name=".Activity.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".Activity.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.IntroActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.SplashActivity"
+            android:name=".Activity.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.LoginActivity"
+            android:name=".Activity.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
